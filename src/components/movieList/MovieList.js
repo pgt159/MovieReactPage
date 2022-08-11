@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useGetMovies from "../../hooks/useGetMovies";
 import { SlideNextButton, SlidePrevButton } from "../button/SlideButton";
-import MovieCard, { MovieCardLoading } from "../movieCard/MovieCard";
+import { MovieCardLoading } from "../movieCard/MovieCard";
+import MovieListItem from "../movieCard/MovieListItem";
 
 const MovieList = ({ type }) => {
   const movies = useGetMovies({type});
@@ -40,13 +41,13 @@ const MovieList = ({ type }) => {
         {movies?.results?.length > 0 &&
           movies.results.map((item) => (
             <SwiperSlide key={item.id}>
-              <MovieCard
+              <MovieListItem
                 name={item.title || item.name}
                 src={item.poster_path}
                 vote={item.vote_average}
                 release={item.release_date || item.first_air_date}
                 id={item.id}
-              ></MovieCard>
+              ></MovieListItem>
             </SwiperSlide>
           ))}
       </Swiper>
