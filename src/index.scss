@@ -7,8 +7,9 @@
   body {
     font-family: "Poppins", sans-serif;
     @apply bg-slate-900;
-    padding: 0;
+    padding: 35px;
     margin: 0;
+    
   }
 }
 
@@ -20,6 +21,9 @@
 
   .movie-list .swiper-slide {
     width: 20%;
+    @media screen and (max-width: 760px){
+      width: auto;
+    }
   }
 
   .banner-wrapper {

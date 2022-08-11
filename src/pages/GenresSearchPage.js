@@ -13,6 +13,7 @@ const GenresSearchPage = () => {
   const searchAPI = useGetMovies({
     endpoint: `https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=${genre}&page=${page}`,
   });
+  console.log(searchAPI)
   const loading = !searchAPI;
 
   return (
@@ -23,14 +24,14 @@ const GenresSearchPage = () => {
       {loading ? (
         <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
           {new Array(20).fill(0).map((item) => (
-            <div className="w-[300px]" key={v4()}>
+            <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
               <MovieCardLoading></MovieCardLoading>
             </div>
           ))}
         </div>
       ) : searchAPI?.results?.length > 0 ? (
         <>
-          <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
+          <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
             {searchAPI?.results?.length > 0 &&
               searchAPI?.results?.map((item) => {
                 if (
@@ -41,7 +42,7 @@ const GenresSearchPage = () => {
                   item?.id
                 )
                   return (
-                    <div className="w-[23%]" key={item.id}>
+                    <div className="md:w-[300px] w-[48%] flex-shrink-0" key={item.id}>
                       <MovieCard
                         name={item?.title}
                         src={item?.poster_path}

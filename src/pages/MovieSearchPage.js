@@ -17,9 +17,9 @@ const MovieSearchPage = () => {
   return (
     <div className="">
       {loading ? (
-        <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
+        <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
           {new Array(20).fill(0).map(item => (
-            <div className="w-[23%]" key={v4()}>
+            <div className="md:w-[300px] w-[45%] flex-shrink-0" key={v4()}>
                   <MovieCardLoading></MovieCardLoading>
                 </div>
 
@@ -27,11 +27,11 @@ const MovieSearchPage = () => {
         </div>
       ) : searchAPI?.results?.length > 0 ? (
         <>
-          <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
+          <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
             {searchAPI?.results?.length > 0 &&
               searchAPI?.results?.map((item) => {
                 if (item?.title && item?.poster_path && item?.vote_average && item?.release_date && item?.id) return (
-                  <div className="w-[23%]" key={item.id}>
+                  <div className="md:w-[300px] w-[45%] flex-shrink-0" key={item.id}>
                   <MovieCard
                     name={item?.title}
                     src={item?.poster_path}
@@ -49,7 +49,7 @@ const MovieSearchPage = () => {
         </>
       ) : (
         <span className="text-white text-2xl text-center mt-10 block">
-          There is no result for {movieName}
+          There is no result for <span className='text-primary italic'>{movieName}</span>
         </span>
       )}
     </div>

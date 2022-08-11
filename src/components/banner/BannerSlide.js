@@ -10,7 +10,10 @@ const BannerSlide = (props) => {
     for (let i = 0; i<tags.length; i++) {
         genre.forEach(item => {
             if (tags[i] === item.id) {
-                itemGenre.push(item.name)
+                itemGenre.push({
+                  name: item.name,
+                  id: item.id
+                })
             }
         })
     }
@@ -25,10 +28,16 @@ const BannerSlide = (props) => {
       />
       <div className="content absolute bottom-5 left-5 mb-5 text-white drop-shadow-md flex flex-col gap-y-5 z-[150]">
         <span className="text-[30px]">{name}</span>
-        <div className="tags flex gap-x-2 flex-row ">
+        <div className="tags flex gap-2 flex-row flex-wrap">
         {itemGenre?.length > 0 && itemGenre.map(item => (
-          <span className="p-2 rounded-sm border" key={itemGenre.indexOf(item)}>{item}</span>
-
+          <Link
+              to={`/movies/page=1&searchGenre=${item.id}&type=${item.name}`}
+              key={item.id}
+              className="p-2 rounded-sm border hover:text-black hover:bg-primary transition-all"
+            >
+              {item.name}
+            </Link>
+          
         ))}
         </div>
         <ButtonWatch onClick={() => handleButtonClick(`/movies/${id}`)}
@@ -37,7 +46,6 @@ const BannerSlide = (props) => {
         >
           Watch Now
         </ButtonWatch>
-        {/* <button onClick={() => handleButtonClick(`/movies/${id}`)} className="bg-primary p-3 w-[120px] rounded-lg">Watch</button> */}
       </div>
     </Fragment>
   );

@@ -15,12 +15,12 @@ const SearchBar = () => {
     navigate(`/movies/page=1&search=${filmSearchRef.current.value}`)
   }
   return (
-    <form className="flex flex-row justify-center max-w-[400px]" onSubmit={handleClick}>
+    <form className="flex flex-row justify-center mx-5 md:max-w-[400px] w-full" onSubmit={handleClick}>
       <input
         type="text"
         name=""
         id=""
-        className="px-4  outline-none rounded-l-lg w-[500px]"
+        className="px-4  outline-none rounded-l-lg w-full"
         placeholder="Search"
         onChange={handleChange}
         ref={filmSearchRef}

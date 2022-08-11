@@ -6,20 +6,22 @@ import ButtonWatch from "../button/ButtonWatch";
 const MovieCard = ({ name, src, vote, release, id }) => {
   const navigate = useNavigate()
   return (
-    <div className="w-full h-[500px] rounded-xl overflow-hidden p-3 relative select-none">
-      <div className="z-20 relative w-full h-full flex flex-col gap-y-2">
+    <div className="max-w-[200px] md:w-full h-[400px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none">
+      <div className="z-20 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
         <img
           src={`https://image.tmdb.org/t/p/w500/${src}`}
           alt=""
-          className="w-full h-[70%] object-cover rounded-xl"
+          className="max-w-full h-[70%] object-cover rounded-xl"
         />
-        <span>{name}</span>
-        <div className="flex flex-row justify-between text-sm mt-auto">
-          <span className="text-[#000] drop-shadow-lg ">
+        <span className="truncate max-w-[80%] h-[30px] mt-2">{name}</span>
+        <div className="flex flex-row justify-between text-sm absolute z-30 gap-1 top-0 left-0 w-full md:p-2">
+          <span className=" drop-shadow-lg bg-tags p-2 rounded-lg md:px-4 md:py-2 font-semibold text-white bg-opacity-50">
             {new Date(release).getFullYear()}
           </span>
           <div className="flex flex-row items-center gap-x-3 ">
-            <span className="text-[#000] drop-shadow-xl shadow-[white] ">{vote}</span>
+            <span className="drop-shadow-lg bg-tags 
+            rounded-lg md:px-3 md:py-2 p-2  font-semibold text-white bg-opacity-50 flex gap-1 justify-center items-center">
+            {vote}
             <svg
               width="20"
               height="20"
@@ -41,6 +43,7 @@ const MovieCard = ({ name, src, vote, release, id }) => {
                 strokeWidth="1.5"
               />
             </svg>
+            </span>
           </div>
         </div>
         <ButtonWatch

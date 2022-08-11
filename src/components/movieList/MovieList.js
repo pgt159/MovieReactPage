@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { EffectFade } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useGetMovies from "../../hooks/useGetMovies";
+import { SlideNextButton, SlidePrevButton } from "../button/SlideButton";
 import MovieCard, { MovieCardLoading } from "../movieCard/MovieCard";
 
 const MovieList = ({ type }) => {
@@ -8,10 +10,10 @@ const MovieList = ({ type }) => {
   // 
   const isLoading = !movies || movies.length < 1;
   return (
-    <div className="w-full movie-list">
+    <div className="w-full movie-list relative">
     {
       isLoading && (
-        <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"}>
+        <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"} modules={[EffectFade]} effect="fade">
             <SwiperSlide >
               <MovieCardLoading></MovieCardLoading>
             </SwiperSlide>
@@ -34,6 +36,8 @@ const MovieList = ({ type }) => {
       )
     }
       <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"}>
+      <SlideNextButton></SlideNextButton>
+      <SlidePrevButton></SlidePrevButton>
         {movies?.results?.length > 0 &&
           movies.results.map((item) => (
             <SwiperSlide key={item.id}>
@@ -43,7 +47,6 @@ const MovieList = ({ type }) => {
                 vote={item.vote_average}
                 release={item.release_date || item.first_air_date}
                 id={item.id}
-                item={item}
               ></MovieCard>
             </SwiperSlide>
           ))}
