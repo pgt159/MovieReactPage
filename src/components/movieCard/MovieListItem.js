@@ -54,7 +54,7 @@ const MovieListItem = ({ name, src, vote, release, id }) => {
           alt=""
           className="w-full h-full object-cover rounded-xl hidden md:block"
         />
-        <div className="layer absolute inset-0 backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
+        <div className="layer absolute inset-0 md:backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
       </div>
     </div>
   );
