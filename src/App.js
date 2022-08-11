@@ -2,7 +2,6 @@ import "./App.css";
 import { Fragment, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import "swiper/scss";
-import 'swiper/css/effect-fade';
 import Main from "./components/layout/Main";
 import { GenreProvider } from "./context/GenreContext";
 import MovieSearchPage from "./pages/MovieSearchPage";

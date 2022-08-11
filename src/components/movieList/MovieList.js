@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { EffectFade } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useGetMovies from "../../hooks/useGetMovies";
 import { SlideNextButton, SlidePrevButton } from "../button/SlideButton";
