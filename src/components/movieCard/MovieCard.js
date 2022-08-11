@@ -55,14 +55,14 @@ const MovieCard = ({ name, src, vote, release, id }) => {
           Watch now
         </ButtonWatch>
       </div>
-      <div className="absolute inset-0 p-3 ">
+      {/* <div className="absolute inset-0 p-3 ">
         <img
           src={`https://image.tmdb.org/t/p/w500/${src}`}
           alt=""
           className="w-full h-full object-cover rounded-xl"
         />
         <div className="layer absolute inset-0 backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
-      </div>
+      </div> */}
     </div>
   );
 };

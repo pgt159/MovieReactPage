@@ -34,7 +34,7 @@ const MovieList = ({ type }) => {
       </Swiper>
       )
     }
-      <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"}>
+      <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"} fadeEffect={false}>
       <SlideNextButton></SlideNextButton>
       <SlidePrevButton></SlidePrevButton>
         {movies?.results?.length > 0 &&
