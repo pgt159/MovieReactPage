@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
-import SearchBar from "../components/layout/SearchBar";
 import MovieCard, { MovieCardLoading } from "../components/movieCard/MovieCard";
 import Pagination from "../components/pagination/Pagination";
 import useGetMovies from "../hooks/useGetMovies";
@@ -27,7 +26,7 @@ const MoviePage = () => {
             {movies?.results?.length > 0 &&
               movies.results.map((item) => (
                 <div
-                  className="md:w-[300px] w-[45%] flex-shrink-0"
+                  className="md:w-[250px] w-[45%] flex-shrink-0"
                   key={item.id}
                 >
                   <MovieCard

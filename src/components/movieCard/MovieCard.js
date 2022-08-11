@@ -6,7 +6,7 @@ import ButtonWatch from "../button/ButtonWatch";
 const MovieCard = ({ name, src, vote, release, id }) => {
   const navigate = useNavigate()
   return (
-    <div className="max-w-[200px] md:w-full h-[400px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none">
+    <div className="max-w-[200px] md:max-w-full h-[400px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none">
       <div className="z-20 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
         <img
           src={`https://image.tmdb.org/t/p/w500/${src}`}

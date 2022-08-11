@@ -13,7 +13,7 @@ const MovieList = ({ type }) => {
     <div className="w-full movie-list relative">
     {
       isLoading && (
-        <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"} modules={[EffectFade]} effect="fade">
+        <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"} >
             <SwiperSlide >
               <MovieCardLoading></MovieCardLoading>
             </SwiperSlide>
