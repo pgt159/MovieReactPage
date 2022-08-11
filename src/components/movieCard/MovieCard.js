@@ -55,7 +55,7 @@ const MovieCard = ({ name, src, vote, release, id }) => {
           Watch now
         </ButtonWatch>
       </div>
-      <div className="absolute inset-0 p-3 ">
+      <div className="absolute inset-0 p-3 md:block hidden">
         <img
           src={`https://image.tmdb.org/t/p/w500/${src}`}
           alt=""
