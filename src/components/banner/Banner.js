@@ -8,7 +8,6 @@ import { SlideNextButton, SlidePrevButton } from "../button/SlideButton";
 
 const Banner = () => {
   const [banners, setBanners] = useState([]);
-  console.log(banners)
   const { data, error } = useSWR(tmdb.getMovieList("upcoming"), fetcher);
   useEffect(() => {
     if (data && data.results) {

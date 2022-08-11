@@ -4,15 +4,16 @@ import useGetMovies from "../hooks/useGetMovies";
 import { v4 } from "uuid";
 import MovieCard, { MovieCardLoading } from "../components/movieCard/MovieCard";
 import Pagination from "../components/pagination/Pagination";
+import { tmdb } from "../config";
 
 const GenresSearchPage = () => {
-  // https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=28
   const genre = useParams().genre;
   const page = useParams().page;
   const type = useParams().type;
-  const searchAPI = useGetMovies({
-    endpoint: `https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=${genre}&page=${page}`,
-  });
+  // const searchAPI = useGetMovies({
+  //   endpoint: `https://api.themoviedb.org/3/discover/movie?api_key=68ff44b16c8cfc514f5219295b422d75&with_genres=${genre}&page=${page}`,
+  // });
+  const searchAPI = useGetMovies(tmdb.getMovieGenreList(genre,page));
   console.log(searchAPI)
   const loading = !searchAPI;
 

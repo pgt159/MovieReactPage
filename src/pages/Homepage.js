@@ -11,9 +11,7 @@ const Homepage = () => {
 
         </div>
         <MovieList
-          type={
-            "now_playing"
-          }
+          type={ "now_playing"}
         ></MovieList>
       </section>
 
@@ -22,9 +20,16 @@ const Homepage = () => {
           <span className="text-[20px]">Top Rated</span>
         </div>
         <MovieList
-          type={
-            "top_rated"
-          }
+          type={ "top_rated" }
+        ></MovieList>
+      </section>
+
+      <section className="container flex flex-col gap-y-5 text-white mb-10">
+        <div className="flex justify-between w-full">
+          <span className="text-[20px]">Upcoming</span>
+        </div>
+        <MovieList
+          type={ "upcoming" }
         ></MovieList>
       </section>
     </Fragment>

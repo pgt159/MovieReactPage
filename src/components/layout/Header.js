@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useFilm } from "../../context/FilmContext";
 import Genres from "../genresSelector/Genres";
 import SearchBar from "./SearchBar";
 const list = [
@@ -10,7 +11,7 @@ const list = [
   },
   {
     id: 2,
-    title: "Movies",
+    title: "Explore",
     to: "/movies&page=1",
   },
 ];
@@ -20,7 +21,7 @@ const Header = () => {
     <Fragment>
       <div className="flex md:flex-row gap-10 flex-col justify-between mb-5 p-5 bg-slate-900 items-center relative rounded-lg bg-opacity-70">
         <div
-          className={`header text-white flex items-center justify-center gap-x-10 z-[60]`}
+          className={`header text-white flex items-center justify-center md:gap-7 gap-4 z-[60]`}
         >
           {list.map((item) => (
             <NavLink

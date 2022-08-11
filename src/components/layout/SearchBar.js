@@ -2,27 +2,27 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
-  const [filter, setFilter] = useState("");
+  // const [filter, setFilter] = useState("");
   const filmSearchRef = useRef();
   const navigate = useNavigate()
   
 
   
-  const handleChange = (e) => {
-    setFilter(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   setFilter(e.target.value);
+  // };
   const handleClick = () => {
     navigate(`/movies/page=1&search=${filmSearchRef.current.value}`)
   }
   return (
-    <form className="flex flex-row justify-center mx-5 md:max-w-[400px] w-full" onSubmit={handleClick}>
+    <form className="flex flex-row justify-center mx-5 md:max-w-[300px] w-full" onSubmit={handleClick}>
       <input
         type="text"
         name=""
         id=""
         className="px-4  outline-none rounded-l-lg w-full"
         placeholder="Search"
-        onChange={handleChange}
+        // onChange={handleChange}
         ref={filmSearchRef}
       />
       <button className="h-full flex items-center justify-center p-3 bg-primary rounded-r-lg text-white"
