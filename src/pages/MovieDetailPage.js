@@ -7,6 +7,7 @@ import useGetMovies from "../hooks/useGetMovies";
 
 const MovieDetailPage = () => {
   const { movieId } = useParams();
+  console.log(movieId);
   const [movie, setMovie] = useState({});
   const [credit, setCredit] = useState([]);
   const [video, setVideo] = useState();
@@ -14,7 +15,9 @@ const MovieDetailPage = () => {
   const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
   const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, "credits"));
   const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, "videos"));
-  const similarResponse = useGetMovies(tmdb.getMovieDetails(movieId, "similar"));
+  const similarResponse = useGetMovies(
+    tmdb.getMovieDetails(movieId, "similar")
+  );
   useEffect(() => {
     setMovie(response);
     setCredit(creditResponse?.cast?.slice(0, 5));
@@ -41,6 +44,12 @@ const MovieDetailPage = () => {
       <span className="md:text-[30px] text-[25px] mx-auto font-semibold">
         {movie?.title}
       </span>
+      <Link
+        to={`/movies/${movieId}/watch`}
+        className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary mx-auto my-2 text-white text-xl"
+      >
+        Watch Now
+      </Link>
       <div className="flex flex-row justify-center flex-nowrap md:gap-x-10 gap-5">
         {movie?.genres?.length > 0 &&
           movie?.genres?.map((item) => (
@@ -64,8 +73,8 @@ const MovieDetailPage = () => {
               className="md:w-[15%] flex md:flex-col flex-row gap-5 md:text-center justify-start"
               key={item.id}
             >
-                <div className="md:w-full w-[80px] md:h-[250px] md:border-white md:border h-[80px] md:rounded-lg rounded-full overflow-hidden">
-              {item.profile_path && (
+              <div className="md:w-full w-[80px] md:h-[250px] md:border-white md:border h-[80px] md:rounded-lg rounded-full overflow-hidden">
+                {item.profile_path && (
                   <img
                     src={
                       item.profile_path
@@ -75,8 +84,8 @@ const MovieDetailPage = () => {
                     className="w-full md:h-[250px] md:object-cover md:rounded-lg object-contain object-center"
                     alt=""
                   />
-              )}
-                </div>
+                )}
+              </div>
               <div className="flex flex-col ">
                 <span className="text-[20px]">{item.name}</span>
                 as
