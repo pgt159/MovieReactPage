@@ -9,6 +9,7 @@ import Banner from "./components/banner/Banner";
 import NotFoundPage from "./pages/NotFoundPage";
 import { FilmProvider } from "./context/FilmContext";
 import MovieWatchPage from "./pages/MovieWatchPage";
+import LoginPage from "./pages/LoginPage";
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const MoviePage = lazy(() => import("./pages/MoviePage"));
@@ -52,6 +53,10 @@ function App() {
                 <Route
                   path="/movies/page=:page&searchGenre=:genre&type=:type"
                   element={<GenresSearchPage></GenresSearchPage>}
+                ></Route>
+                <Route
+                  path="/login"
+                  element={<LoginPage></LoginPage>}
                 ></Route>
               </Route>
             </Routes>

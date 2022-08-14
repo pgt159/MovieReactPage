@@ -33,7 +33,7 @@ const MovieDetailPage = () => {
           alt=""
         />
       </div>
-      <div className="w-[60%] md:h-[600px] h-[350px] relative md:mx-auto bg-white overflow-hidden rounded-xl">
+      <div className="w-[50%] md:h-[600px] h-[350px] relative md:mx-auto bg-white overflow-hidden rounded-xl">
         <img
           src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
           className=" w-full h-full object-cover"
