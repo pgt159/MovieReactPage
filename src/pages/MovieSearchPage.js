@@ -9,9 +9,7 @@ const MovieSearchPage = () => {
   
   const movieName = useParams().movieName;
   const page = useParams().page;
-  const searchAPI = useGetMovies({
-    endpoint: tmdb.getMovieSearchPage(movieName, page),
-  });
+  const searchAPI = useGetMovies(tmdb.getMovieSearchPage(movieName, page));
   const loading = !searchAPI;
 
   return (

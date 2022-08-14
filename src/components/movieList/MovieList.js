@@ -1,29 +1,15 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { tmdb } from "../../config";
-import { useFilm } from "../../context/FilmContext";
 import useGetMovies from "../../hooks/useGetMovies";
 import { SlideNextButton, SlidePrevButton } from "../button/SlideButton";
 import { MovieCardLoading } from "../movieCard/MovieCard";
 import MovieListItem from "../movieCard/MovieListItem";
 
-const MovieList = ({ type }) => {
-  const [movieState, setMovieState] = useFilm();
-  // function result () {
-  //   if (movieState) {
+const MovieList = ( {type} ) => {
 
-  //   } 
-  // }
-  const movies = useGetMovies(movieState ? tmdb.getMovieList(type) : tmdb.getShowList(type));
-  // const [movies, setMovies] = useState([])
-  // useEffect(() => {
-  //   axios.get(tmdb.getMovieList(type))
-  //     .then((res) => {
-  //       setMovies(res.data)
-  //     })
-  // }, [])
-  // 
+  const movies = useGetMovies(tmdb.getMovieList(type));
   const isLoading = !movies || movies.length < 1;
   return (
     <div className="w-full movie-list relative">
@@ -51,7 +37,7 @@ const MovieList = ({ type }) => {
       </Swiper>
       )
     }
-      <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"} fadeEffect={false}>
+      <Swiper grabCursor={"true"} spaceBetween={20} slidesPerView={"auto"} fadeEffect={false}>
       <SlideNextButton></SlideNextButton>
       <SlidePrevButton></SlidePrevButton>
         {movies?.results?.length > 0 &&

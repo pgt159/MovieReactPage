@@ -7,7 +7,6 @@ import useGetMovies from "../hooks/useGetMovies";
 
 const MovieDetailPage = () => {
   const { movieId } = useParams();
-  console.log(movieId);
   const [movie, setMovie] = useState({});
   const [credit, setCredit] = useState([]);
   const [video, setVideo] = useState();
@@ -65,8 +64,8 @@ const MovieDetailPage = () => {
       <span className="w-[80%] mx-auto text-center leading-relaxed">
         {movie?.overview}
       </span>
-      <span className="text-[25px] mx-auto font-semibold">Cast</span>
-      <div className="flex md:flex-row flex-col gap-5 lg:max-w-[1280px] h-auto mx-auto justify-center">
+      <span className="md:mt-0 mt-5 text-[25px] mx-auto font-semibold">Cast</span>
+      <div className="flex md:flex-row flex-col md:gap-5 gap-8 lg:max-w-[1280px] md:mb-0 mb-8 h-auto mx-auto justify-center">
         {credit?.length > 0 &&
           credit?.map((item) => (
             <div
@@ -116,7 +115,7 @@ const MovieDetailPage = () => {
           />
         )}
       </div>
-      <div className="flex flex-col gap-y-10">
+      <div className="flex flex-col gap-y-10 md:mt-0 mt-8">
         <span className="text-2xl font-semibold mx-auto">Similar Movies</span>
         <div className="container movie-list">
           <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={"auto"}>
