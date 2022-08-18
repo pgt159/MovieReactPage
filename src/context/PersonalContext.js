@@ -8,28 +8,38 @@ import { auth, db } from "../firebase-config";
 
 const PersonalContext = createContext();
 function PersonalProvider(props) {
-  const [bookmark, setBookMark] = useState([]);
   const [history, setHistory] = useState([]);
+  const [bookmarkId, setBookmarkId] = useState([]);
+  const [moviesBookmarkData, setMoviesBookmarkData] = useState([]);
   const [currentId, setCurrentId] = useState("");
   const [moviesHistory, setMoviesHistory] = useState([]);
   const value = {
-    bookmark,
-    setBookMark,
     history,
     setHistory,
     currentId,
     moviesHistory,
     setMoviesHistory,
+    bookmarkId, 
+    setBookmarkId,
+    moviesBookmarkData, 
+    setMoviesBookmarkData
   };
   useEffect(() => {
-    const arr = []
+    const arr = [];
+    const bookmarkArr = [];
       history.forEach((item) => {
         axios.get(tmdb.getMovieDetails(item, null)).then(res => {
             arr.push(res.data)
             setMoviesHistory([...arr])
         })
     });
-  }, [history]);
+      bookmarkId.forEach((item) => {
+        axios.get(tmdb.getMovieDetails(item, null)).then(res => {
+          bookmarkArr.push(res.data)
+          setMoviesBookmarkData([...bookmarkArr])
+      })
+    })
+  }, [history, bookmarkId]);
   const userList = collection(db, "users");
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -39,7 +49,7 @@ function PersonalProvider(props) {
           const result = snapshot.docs.forEach((doc) => {
             if (doc.data().uid === uid) {
               setHistory(JSON.parse(doc.data().history));
-              setBookMark(JSON.parse(doc.data().bookmark));
+              setBookmarkId(JSON.parse(doc.data().bookmark));
               setCurrentId(doc.id);
             }
           });

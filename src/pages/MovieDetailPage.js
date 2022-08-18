@@ -14,8 +14,8 @@ const MovieDetailPage = () => {
   const [video, setVideo] = useState();
   const [similar, setSimilar] = useState();
   const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
-  const {history, setHistory, currentId} = usePersonal();
-  console.log(history)
+  const { history, setHistory, currentId, bookmarkId, setBookmarkId } =
+    usePersonal();
   const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, "credits"));
   const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, "videos"));
   const similarResponse = useGetMovies(
@@ -47,29 +47,72 @@ const MovieDetailPage = () => {
       <span className="md:text-[30px] text-[25px] mx-auto font-semibold">
         {movie?.title}
       </span>
-      <Link
-        to={`/movies/${movieId}/watch`}
-        className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary mx-auto my-2 text-white text-xl"
-        onClick={async () => {
-          console.log(history);
-          const newArray = [...history];
-          const index = newArray.indexOf(+movieId);
-          console.log(index)
-          if (index > -1) {
-            newArray.splice(index,1)
-          }
-          if (newArray.length >= 20) {
-            newArray.pop();
-          }
-          newArray.unshift(+movieId)
-          setHistory(newArray);
-          await updateDoc(doc(db, 'users', currentId),{
-            history: JSON.stringify([...newArray])
-          })
-        }}
-      >
-        Watch Now
-      </Link>
+      <div className="flex flex-row gap-5 justify-center">
+        <button
+          onClick={async () => {
+            console.log(bookmarkId);
+            const newArray = [...bookmarkId];
+            const index = newArray.indexOf(+movieId);
+            console.log(index);
+            if (index > -1) {
+              newArray.splice(index, 1);
+              setBookmarkId(newArray);
+              await updateDoc(doc(db, "users", currentId), {
+                bookmark: JSON.stringify([...newArray]),
+              });
+              return
+            }
+            if (newArray.length >= 20) {
+              newArray.pop();
+            }
+            console.log(bookmarkId.includes(+movieId));
+            newArray.unshift(+movieId);
+            setBookmarkId(newArray);
+            await updateDoc(doc(db, "users", currentId), {
+              bookmark: JSON.stringify([...newArray]),
+            });
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-10 w-10"
+            fill={bookmarkId.includes(+movieId) ? "red" : "none"}
+            viewBox="0 0 24 24"
+            stroke={bookmarkId.includes(+movieId) ? "none" : "currentColor"}
+            strokeWidth={1}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+            />
+          </svg>
+        </button>
+        <Link
+          to={`/movies/${movieId}/watch`}
+          className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary my-2 text-white text-xl"
+          onClick={async () => {
+            console.log(history);
+            const newArray = [...history];
+            const index = newArray.indexOf(+movieId);
+            console.log(index);
+            if (index > -1) {
+              newArray.splice(index, 1);
+            }
+            if (newArray.length >= 20) {
+              newArray.pop();
+            }
+            newArray.unshift(+movieId);
+            setHistory(newArray);
+            await updateDoc(doc(db, "users", currentId), {
+              history: JSON.stringify([...newArray]),
+            });
+          }}
+        >
+          Watch Now
+        </Link>
+      </div>
+
       <div className="flex flex-row justify-center flex-nowrap md:gap-x-10 gap-5">
         {movie?.genres?.length > 0 &&
           movie?.genres?.map((item) => (
@@ -85,7 +128,9 @@ const MovieDetailPage = () => {
       <span className="w-[80%] mx-auto text-center leading-relaxed">
         {movie?.overview}
       </span>
-      <span className="md:mt-0 mt-5 text-[25px] mx-auto font-semibold">Cast</span>
+      <span className="md:mt-0 mt-5 text-[25px] mx-auto font-semibold">
+        Cast
+      </span>
       <div className="flex md:flex-row flex-col md:gap-5 gap-8 lg:max-w-[1280px] md:mb-0 mb-8 h-auto mx-auto justify-center">
         {credit?.length > 0 &&
           credit?.map((item) => (

@@ -7,7 +7,7 @@ import MovieListItem, { MovieCardLoading } from '../movieCard/MovieListItem';
 const PersonalList = ({type}) => {
     const [movies, setMovies] = useState();
     const {moviesHistory} = usePersonal();
-    const isLoading = !movies || movies.length < 1
+    const isLoading = !movies
     useEffect(() => {
         setMovies(moviesHistory)
         console.log(moviesHistory)

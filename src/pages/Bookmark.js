@@ -8,16 +8,15 @@ import CheckBox from "../components/checkBox/CheckBox";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
-const History = () => {
-  const { history, moviesHistory} =
-    usePersonal();
+const Bookmark = () => {
+  const { bookmarkId, moviesBookmarkData} = usePersonal();
   const [edit, setEdit] = useState(false);
   const [selected, setSelected] = useState([]);
   const { currentId } = usePersonal();
   return (
     <div className="w-full mb-10 text-white">
       <h1 className="text-[40px] font-semibold block mb-5 w-full text-center items-center">
-        HISTORY
+        BOOKMARKED MOVIES
       </h1>
       <div>
         {edit ? (
@@ -25,11 +24,11 @@ const History = () => {
             <button
               className="flex flex-row gap-2 hover:text-white transition-all"
               onClick={() => {
-                if (selected.length === history.length) {
+                if (selected.length === bookmarkId.length) {
                   setSelected([]);
                   return;
                 }
-                setSelected([...history]);
+                setSelected([...bookmarkId]);
               }}
             >
               <svg
@@ -54,11 +53,12 @@ const History = () => {
               }`}
               disabled={!selected.length > 0}
               onClick={async () => {
-                const result = history.filter((item) => {
+                const result = bookmarkId.filter((item) => {
                   return !selected.includes(item);
                 });
+                console.log(result)
                 await updateDoc(doc(db, "users", currentId), {
-                  history: JSON.stringify([...result]),
+                  bookmark: JSON.stringify([...result]),
                 });
                 setEdit(false)
               }}
@@ -106,7 +106,7 @@ const History = () => {
         ) : (
           <button
             className={`relative ml-auto flex flex-row justify-end gap-2 mb-5
-       text-subText text-xl hover:text-white transition-all ${history.length >0 ? "" : "hidden"}`}
+       text-subText text-xl hover:text-white transition-all ${bookmarkId.length >0 ? "" : "hidden"}`}
             onClick={() => setEdit(true)}
           >
             <svg
@@ -128,10 +128,10 @@ const History = () => {
         )}
       </div>
 
-      {history?.length > 0 ? 
+      {bookmarkId?.length > 0 ? 
         <div className="w-full flex flex-row flex-wrap gap-5 justify-center">
-          {moviesHistory.length > 0 &&
-            moviesHistory.map((item) => (
+          {moviesBookmarkData.length > 0 &&
+            moviesBookmarkData.map((item) => (
               <div className="md:w-[250px] w-[45%] flex-shrink-0" key={item.id}>
                 <MovieCard
                   name={item.title || item.name}
@@ -163,13 +163,6 @@ const History = () => {
             </span>
             <span className="text-[60px]">SORRY, THERE'S</span>
             <span className="text-[60px] text-primary">NOTHING HERE</span>
-            {/* <button
-              onClick={() => navigate("/")}
-              className="mt-5 px-5 py-2 bg-primary text-white rounded-md hover:rounded-none hover:scale-150
-            transition-all"
-            >
-              GO HOME
-            </button> */}
           </div>
         </div>
       )}
@@ -177,4 +170,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default Bookmark;

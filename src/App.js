@@ -16,6 +16,7 @@ import ProfilePageMain from "./components/layout/ProfilePageMain";
 import ChangePassword from "./pages/ChangePassword";
 import { PersonalProvider } from "./context/PersonalContext";
 import History from "./pages/History";
+import Bookmark from "./pages/Bookmark";
 
 
 const Homepage = lazy(() => import("./pages/Homepage"));
@@ -77,6 +78,7 @@ function App() {
                     <Route path="/account/general" element={<UserProfile></UserProfile>}></Route>
                     <Route path="/account/password" element={<ChangePassword></ChangePassword>}></Route>
                     <Route path="/account/history" element={<History></History>}></Route>
+                    <Route path="/account/bookmark" element={<Bookmark></Bookmark>}></Route>
                   </Route>
                 </Route>
               </Routes>
