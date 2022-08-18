@@ -6,11 +6,15 @@ import MovieListItem, { MovieCardLoading } from '../movieCard/MovieListItem';
 
 const PersonalList = ({type}) => {
     const [movies, setMovies] = useState();
-    const {moviesHistory} = usePersonal();
+    const {moviesHistory, moviesBookmarkData} = usePersonal();
     const isLoading = !movies
     useEffect(() => {
+      if (type == 'history') {
         setMovies(moviesHistory)
-        console.log(moviesHistory)
+      } else if (type == 'bookmark') {
+        setMovies(moviesBookmarkData)
+      }
+        
     },[moviesHistory])
     return (
             <div className="w-full movie-list relative">

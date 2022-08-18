@@ -45,6 +45,16 @@ const Homepage = () => {
           type={ "history" }
         ></PersonalList>
       </section>}
+
+      {userInfo && 
+      <section className="container flex flex-col gap-y-5 text-white mb-10">
+        <div className="flex justify-between w-full">
+          <span className="text-[20px]">Bookmark</span>
+        </div>
+        <PersonalList
+          type={ "bookmark" }
+        ></PersonalList>
+      </section>}
     </Fragment>
   );
 };
