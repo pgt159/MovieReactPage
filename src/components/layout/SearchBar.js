@@ -4,29 +4,33 @@ import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
   // const [filter, setFilter] = useState("");
   const filmSearchRef = useRef();
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
-  
   // const handleChange = (e) => {
   //   setFilter(e.target.value);
   // };
   const handleClick = () => {
-    navigate(`/movies/page=1&search=${filmSearchRef.current.value}`)
-  }
+    if (filmSearchRef.current.value === "") return;
+    navigate(`/movies/page=1&search=${filmSearchRef.current.value}`);
+  };
   return (
-    <form className="flex flex-row justify-center mx-5 md:max-w-[300px] w-full" onSubmit={handleClick}>
+    <form
+      className="flex flex-row justify-center mx-5 md:max-w-[300px] w-full"
+      onSubmit={handleClick}
+    >
       <input
         type="text"
         name=""
         id=""
-        className="px-4  outline-none rounded-l-lg w-full"
+        className="px-4 border border-primary outline-none rounded-l-lg w-full"
         placeholder="Search"
         // onChange={handleChange}
         ref={filmSearchRef}
       />
-      <button className="h-full flex items-center justify-center p-3 bg-primary rounded-r-lg text-white"
-      onClick={handleClick}>
+      <button
+        className="h-full flex items-center justify-center hover:opacity-80 transition-all p-3 bg-primary rounded-r-lg text-white"
+        onClick={handleClick}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"

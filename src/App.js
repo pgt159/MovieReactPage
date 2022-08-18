@@ -7,9 +7,16 @@ import { GenreProvider } from "./context/GenreContext";
 import MovieSearchPage from "./pages/MovieSearchPage";
 import Banner from "./components/banner/Banner";
 import NotFoundPage from "./pages/NotFoundPage";
-import { FilmProvider } from "./context/FilmContext";
 import MovieWatchPage from "./pages/MovieWatchPage";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/SignUpPage";
+import { AuthProvider } from "./context/AuthContext";
+import SignUpPage from "./pages/SignUpPage";
+import UserProfile from "./pages/UserProfile";
+import ProfilePageMain from "./components/layout/ProfilePageMain";
+import ChangePassword from "./pages/ChangePassword";
+import { PersonalProvider } from "./context/PersonalContext";
+import History from "./pages/History";
+
 
 const Homepage = lazy(() => import("./pages/Homepage"));
 const MoviePage = lazy(() => import("./pages/MoviePage"));
@@ -19,49 +26,63 @@ const GenresSearchPage = lazy(() => import("./pages/GenresSearchPage"));
 function App() {
   return (
     <Fragment>
+    
       <Suspense>
-        <FilmProvider>
-          <GenreProvider>
-            <Routes>
-              <Route element={<Main></Main>}>
-                <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
-                <Route
-                  path="/"
-                  element={
-                    <Fragment>
-                      <Banner></Banner>
-                      <Homepage></Homepage>
-                    </Fragment>
-                  }
-                ></Route>
-                <Route
-                  path="/movies&page=:page"
-                  element={<MoviePage></MoviePage>}
-                ></Route>
-                <Route
-                  path="/movies/:movieId"
-                  element={<MovieDetailPage></MovieDetailPage>}
-                ></Route>
-                <Route
-                  path="/movies/:movieId/watch"
-                  element={<MovieWatchPage></MovieWatchPage>}
-                ></Route>
-                <Route
-                  path="/movies/page=:page&search=:movieName"
-                  element={<MovieSearchPage></MovieSearchPage>}
-                ></Route>
-                <Route
-                  path="/movies/page=:page&searchGenre=:genre&type=:type"
-                  element={<GenresSearchPage></GenresSearchPage>}
-                ></Route>
-                <Route
-                  path="/login"
-                  element={<LoginPage></LoginPage>}
-                ></Route>
-              </Route>
-            </Routes>
-          </GenreProvider>
-        </FilmProvider>
+        <AuthProvider>
+        <PersonalProvider>
+            <GenreProvider>
+              <Routes>
+                <Route element={<Main></Main>}>
+                  <Route
+                    path="*"
+                    element={<NotFoundPage></NotFoundPage>}
+                  ></Route>
+                  <Route
+                    path="/"
+                    element={
+                      <Fragment>
+                        <Banner></Banner>
+                        <Homepage></Homepage>
+                      </Fragment>
+                    }
+                  ></Route>
+                  <Route
+                    path="/movies&page=:page"
+                    element={<MoviePage></MoviePage>}
+                  ></Route>
+                  <Route
+                    path="/movies/:movieId"
+                    element={<MovieDetailPage></MovieDetailPage>}
+                  ></Route>
+                  <Route
+                    path="/movies/:movieId/watch"
+                    element={<MovieWatchPage></MovieWatchPage>}
+                  ></Route>
+                  <Route
+                    path="/movies/page=:page&search=:movieName"
+                    element={<MovieSearchPage></MovieSearchPage>}
+                  ></Route>
+                  <Route
+                    path="/movies/page=:page&searchGenre=:genre&type=:type"
+                    element={<GenresSearchPage></GenresSearchPage>}
+                  ></Route>
+                  <Route
+                    path="/signup"
+                    element={<SignUpPage></SignUpPage>}
+                  ></Route>
+                  <Route
+                    path="/account"
+                    element={<ProfilePageMain></ProfilePageMain>}
+                  >
+                    <Route path="/account/general" element={<UserProfile></UserProfile>}></Route>
+                    <Route path="/account/password" element={<ChangePassword></ChangePassword>}></Route>
+                    <Route path="/account/history" element={<History></History>}></Route>
+                  </Route>
+                </Route>
+              </Routes>
+            </GenreProvider>
+            </PersonalProvider>
+        </AuthProvider>
       </Suspense>
     </Fragment>
   );

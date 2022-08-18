@@ -8,7 +8,7 @@ import { MovieCardLoading } from "../movieCard/MovieCard";
 import MovieListItem from "../movieCard/MovieListItem";
 
 const MovieList = ( {type} ) => {
-
+  
   const movies = useGetMovies(tmdb.getMovieList(type));
   const isLoading = !movies || movies.length < 1;
   return (

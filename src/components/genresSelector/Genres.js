@@ -14,9 +14,6 @@ const Genres = ({ isHovered, setIsHovered }) => {
   const handleCloseGenres = (e) => {
     setIsHovered(false);
   };
-  const handleClick = (e) => {
-    console.log(e.target);
-  };
   return (
     <div
       className="hover:text-primary transition-all relative"

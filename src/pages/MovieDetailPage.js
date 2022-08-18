@@ -1,10 +1,12 @@
+import { doc, updateDoc } from "firebase/firestore";
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieListItem from "../components/movieCard/MovieListItem";
 import { tmdb } from "../config";
+import { usePersonal } from "../context/PersonalContext";
+import { db } from "../firebase-config";
 import useGetMovies from "../hooks/useGetMovies";
-
 const MovieDetailPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
@@ -12,6 +14,8 @@ const MovieDetailPage = () => {
   const [video, setVideo] = useState();
   const [similar, setSimilar] = useState();
   const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
+  const {history, setHistory, currentId} = usePersonal();
+  console.log(history)
   const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, "credits"));
   const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, "videos"));
   const similarResponse = useGetMovies(
@@ -46,6 +50,23 @@ const MovieDetailPage = () => {
       <Link
         to={`/movies/${movieId}/watch`}
         className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary mx-auto my-2 text-white text-xl"
+        onClick={async () => {
+          console.log(history);
+          const newArray = [...history];
+          const index = newArray.indexOf(+movieId);
+          console.log(index)
+          if (index > -1) {
+            newArray.splice(index,1)
+          }
+          if (newArray.length >= 20) {
+            newArray.pop();
+          }
+          newArray.unshift(+movieId)
+          setHistory(newArray);
+          await updateDoc(doc(db, 'users', currentId),{
+            history: JSON.stringify([...newArray])
+          })
+        }}
       >
         Watch Now
       </Link>
