@@ -1,9 +1,11 @@
 import { doc, updateDoc } from "firebase/firestore";
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieListItem from "../components/movieCard/MovieListItem";
 import { tmdb } from "../config";
+import { useAuth } from "../context/AuthContext";
 import { usePersonal } from "../context/PersonalContext";
 import { db } from "../firebase-config";
 import useGetMovies from "../hooks/useGetMovies";
@@ -13,9 +15,9 @@ const MovieDetailPage = () => {
   const [credit, setCredit] = useState([]);
   const [video, setVideo] = useState();
   const [similar, setSimilar] = useState();
+  const {userInfo} = useAuth();
   const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
-  const { history, setHistory, currentId, bookmarkId, setBookmarkId } =
-    usePersonal();
+  const { history, setHistory, currentId, bookmarkId, setBookmarkId } = usePersonal();
   const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, "credits"));
   const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, "videos"));
   const similarResponse = useGetMovies(
@@ -50,6 +52,10 @@ const MovieDetailPage = () => {
       <div className="flex flex-row gap-5 justify-center">
         <button
           onClick={async () => {
+            if (!userInfo) {
+              toast.error('You have to be signed in to use this service');
+              return
+            }
             console.log(bookmarkId);
             const newArray = [...bookmarkId];
             const index = newArray.indexOf(+movieId);
@@ -92,7 +98,7 @@ const MovieDetailPage = () => {
           to={`/movies/${movieId}/watch`}
           className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary my-2 text-white text-xl"
           onClick={async () => {
-            console.log(history);
+            if (!userInfo) return
             const newArray = [...history];
             const index = newArray.indexOf(+movieId);
             console.log(index);

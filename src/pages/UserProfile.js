@@ -126,8 +126,7 @@ const UserProfile = () => {
           )}
         </label>
       </form>
-      <ChangePassword></ChangePassword>
-      <div className="flex flex-row gap-10">
+      <div className="flex flex-row gap-10 mt-8">
         <button
           className="bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700 transition-all hover:text-red-500"
           onClick={() => {

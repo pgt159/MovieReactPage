@@ -9,8 +9,7 @@ import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 const History = () => {
-  const { history, moviesHistory} =
-    usePersonal();
+  const { history, moviesHistory } = usePersonal();
   const [edit, setEdit] = useState(false);
   const [selected, setSelected] = useState([]);
   const { currentId } = usePersonal();
@@ -60,7 +59,7 @@ const History = () => {
                 await updateDoc(doc(db, "users", currentId), {
                   history: JSON.stringify([...result]),
                 });
-                setEdit(false)
+                setEdit(false);
               }}
             >
               <svg
@@ -106,7 +105,9 @@ const History = () => {
         ) : (
           <button
             className={`relative ml-auto flex flex-row justify-end gap-2 mb-5
-       text-subText text-xl hover:text-white transition-all ${history.length >0 ? "" : "hidden"}`}
+       text-subText text-xl hover:text-white transition-all ${
+         history.length > 0 ? "" : "hidden"
+       }`}
             onClick={() => setEdit(true)}
           >
             <svg
@@ -128,7 +129,7 @@ const History = () => {
         )}
       </div>
 
-      {history?.length > 0 ? 
+      {history?.length > 0 ? (
         <div className="w-full flex flex-row flex-wrap gap-5 justify-center">
           {moviesHistory.length > 0 &&
             moviesHistory.map((item) => (
@@ -150,26 +151,21 @@ const History = () => {
               </div>
             ))}
         </div>
-      : (
+      ) : (
         <div className="w-full flex flex-col justify-center items-center">
           <div
-            className="container max-w-[1200px] mx-auto p-10 border border-white
-        flex justify-center items-center flex-col text-white"
+            className="container max-w-[1200px] mx-auto p-10 md:border border-white
+             flex justify-center items-center flex-col text-white relative"
           >
-            <span className="text-[140px] leading-[140px] text-white">
-              <span>4</span>
-              <span className="text-primary">0</span>
-              <span>4</span>
-            </span>
-            <span className="text-[60px]">SORRY, THERE'S</span>
-            <span className="text-[60px] text-primary">NOTHING HERE</span>
-            {/* <button
-              onClick={() => navigate("/")}
-              className="mt-5 px-5 py-2 bg-primary text-white rounded-md hover:rounded-none hover:scale-150
-            transition-all"
-            >
-              GO HOME
-            </button> */}
+            <div className="md:w-[300px]">
+              <img src="/not-found.png" className="w-full" alt="" />
+            </div>
+            <div className=" w-full flex flex-col items-center md:gap-8 flex-shrink-0">
+              <span className="md:text-[50px] text-2xl">SORRY, THERE'S</span>
+              <span className="md:text-[50px] text-2xl text-primary">
+                NOTHING HERE
+              </span>
+            </div>
           </div>
         </div>
       )}

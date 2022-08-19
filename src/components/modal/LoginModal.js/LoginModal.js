@@ -16,7 +16,10 @@ const LoginModal = ({setShow}) => {
       navigate('/')
     }).catch(error => {
       if (String(error).includes('auth/user-not-found')) {
-        toast.error('Incorrect email or password',{pauseOnHover: false});
+        toast.error('Account not found',{pauseOnHover: false});
+      }
+      if (String(error.code).includes('auth/wrong-password')) {
+        toast.error('Incorrect password. Please try again', {pauseOnHover: false})
       }
     })
   }

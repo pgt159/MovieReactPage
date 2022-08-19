@@ -11,6 +11,9 @@ const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { userInfo, setUserInfo } = useAuth();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
   return (
     <div className="w-full mb-10 text-white">
       <h1 className="text-[40px] font-semibold block mb-10 w-full text-center">
@@ -22,7 +25,7 @@ const ChangePassword = () => {
         If you are signing in with Google or Facebook, you can't change your
         password.
       </p>
-      <form>
+      <form onSubmit={handleSubmit}>
         {passwordEdit ? (
           <div className="flex flex-col gap-5">
             <input
