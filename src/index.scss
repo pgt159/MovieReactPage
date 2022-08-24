@@ -20,6 +20,9 @@
 
   .movie-list .swiper-slide {
     width: 23%;
+    @media screen and (max-width: 1024px) and (min-width: 760px) {
+      width: 40%;
+    }
     @media screen and (max-width: 760px) {
       width: auto;
     }

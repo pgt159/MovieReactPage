@@ -75,7 +75,7 @@ const SignUpPage = () => {
   }, [errors]);
 
   return (
-    <div className="flex flex-col container px-10">
+    <div className="flex flex-col container px-10 items-center lg:items-start">
       <div className="flex flex-col z-40">
         <span className="text-subText text-[24px] mb-2 font-semibold">
           START FOR FREE
@@ -211,7 +211,7 @@ const SignUpPage = () => {
         </div>
       </form>
       <div
-        className="md:block hidden fixed right-0 top-0 left-[50%] bottom-0 
+        className="lg:block hidden fixed right-0 top-0 left-[50%] bottom-0 
       pointer-events-none h-full overflow-hidden"
       >
         <div className="sign-up-background absolute inset-0 z-50"></div>

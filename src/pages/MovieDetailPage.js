@@ -125,7 +125,7 @@ const MovieDetailPage = () => {
             <Link
               to={`/movies/page=1&searchGenre=${item.id}&type=${item.name}`}
               key={movie?.genres?.indexOf(item)}
-              className="border border-tags rounded-xl text-tags p-2 hover:text-white hover:bg-tags transition-all"
+              className="border border-tags rounded-xl text-tags flex justify-center items-center p-2 hover:text-white hover:bg-tags transition-all"
             >
               {item.name}
             </Link>

@@ -7,11 +7,12 @@ const MovieListItem = ({ name, src, vote, release, id }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="w-[200px] cursor-pointer md:w-full h-[320px] md:h-auto rounded-xl overflow-hidden p-3 relative select-none"
+      className="w-[200px] cursor-pointer md:w-[270px] h-[320px] 
+      md:h-[400px] rounded-xl overflow-hidden p-3 relative select-none"
       onClick={() => navigate(`/movies/${id}`)}
     >
       <div className="z-50 relative w-full h-full flex flex-col gap-y-2 ">
-        <div className="max-w-full h-[250px] rounded-xl">
+        <div className="max-w-full h-[250px] md:h-[85%] rounded-xl">
           <img
             src={`https://image.tmdb.org/t/p/w500/${src}`}
             alt=""

@@ -8,7 +8,7 @@ const MovieCard = ({ name, src, vote, release, id }) => {
   return (
     <div
       className="max-w-[200px] md:max-w-full h-[400px] md:h-auto 
-    rounded-xl overflow-hidden p-3 relative select-none hover:scale-110 transition-all cursor-pointer"
+    rounded-xl overflow-hidden p-3 relative select-none md:hover:scale-110 transition-all cursor-pointer"
       onClick={() => navigate(`/movies/${id}`)}
     >
       <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
