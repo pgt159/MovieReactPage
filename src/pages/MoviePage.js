@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import MovieCard, { MovieCardLoading } from "../components/movieCard/MovieCard";
-import Pagination from "../components/pagination/Pagination";
-import { tmdb } from "../config";
-import useGetMovies from "../hooks/useGetMovies";
+import { fetcher, tmdb } from "../config";
+import useSWRInfinite from "swr/infinite";
 
 const MoviePage = () => {
   const page = useParams().page;
-
-  const movies = useGetMovies( tmdb.getMovieList("popular", page));
+  const [url, setUrl] = useState(tmdb.getMovieList("popular", page));
+  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+    (index) => url.replace("page=1", `page=${index + 1}`),
+    fetcher
+  );
+  const movies = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
+  const isEmpty = data?.[0]?.results.length === 0;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.results.length < 20);
   const loading = !movies;
-
   return (
     <>
       {loading ? (
@@ -25,8 +30,8 @@ const MoviePage = () => {
       ) : (
         <>
           <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
-            {movies?.results?.length > 0 &&
-              movies.results.map((item) => (
+            {movies?.length > 0 &&
+              movies.map((item) => (
                 <div
                   className="md:w-[250px] w-[45%] flex-shrink-0"
                   key={item.id}
@@ -41,7 +46,17 @@ const MoviePage = () => {
                 </div>
               ))}
           </div>
-          <Pagination page={page} searchAPI={movies}></Pagination>
+          <button
+            className={`text-white bg-primary hover:opacity-80 transition-all mx-auto mt-10 
+          block px-4 py-3 rounded-lg ${
+            isReachingEnd ? "opacity-50 pointer-events-none" : ""
+          }`}
+            onClick={() => {
+              if (isReachingEnd) {return null} else {setSize(size + 1)};
+            }}
+          >
+            Load more
+          </button>
         </>
       )}
     </>

@@ -7,7 +7,6 @@ import useClickToggle from "../hooks/useClickToggle";
 
 const Homepage = () => {
   const {userInfo} = useAuth();
-  console.log(window.innerWidth)
   return (
     <Fragment>
       <section className="container flex flex-col gap-y-5 text-white mb-10">

@@ -2,16 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
-  // const [filter, setFilter] = useState("");
   const filmSearchRef = useRef();
   const navigate = useNavigate();
-
-  // const handleChange = (e) => {
-  //   setFilter(e.target.value);
-  // };
   const handleClick = () => {
     if (filmSearchRef.current.value === "") return;
-    navigate(`/movies/page=1&search=${filmSearchRef.current.value}`);
+    navigate(`/movies/search=${filmSearchRef.current.value}`);
   };
   return (
     <form

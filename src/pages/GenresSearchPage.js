@@ -43,7 +43,7 @@ const GenresSearchPage = () => {
                   item?.id
                 )
                   return (
-                    <div className="md:w-[300px] w-[48%] flex-shrink-0" key={item.id}>
+                    <div className="md:max-w-[240px] w-[40%] flex-shrink-0" key={item.id}>
                       <MovieCard
                         name={item?.title}
                         src={item?.poster_path}

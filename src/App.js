@@ -60,7 +60,7 @@ function App() {
                     element={<MovieWatchPage></MovieWatchPage>}
                   ></Route>
                   <Route
-                    path="/movies/page=:page&search=:movieName"
+                    path="/movies/search=:movieName"
                     element={<MovieSearchPage></MovieSearchPage>}
                   ></Route>
                   <Route
