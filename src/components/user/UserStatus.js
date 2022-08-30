@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import { auth } from "../../firebase-config";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const UserStatus = ({ onClick, className }) => {
-  const { userInfo, setUserInfo } = useAuth();
+  // const { userInfo, setUserInfo } = useAuth();
+  const userInfo = useSelector((state) => state.auth.userInfo)
   const navigate = useNavigate();
   return (
     <div className={className} >

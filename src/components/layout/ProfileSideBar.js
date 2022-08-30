@@ -6,7 +6,6 @@ import useClickToggle from "../../hooks/useClickToggle";
 const ProfileSideBar = () => {
   const menuRef = useRef();
   const { isMobile, isShow } = useClickToggle({ menuRef });
-  console.log(isShow);
 
   return (
     <div className="">

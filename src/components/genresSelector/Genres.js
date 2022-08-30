@@ -10,7 +10,6 @@ const Genres = ({ isHovered, setIsHovered }) => {
   const movies = useGetMovies(tmdb.getMovieGenre())?.genres;
   const navigate = useNavigate();
   const menuRef = useRef();
-  const normalRef = useRef();
   const {isMobile, isShow, setIsShow} = useClickToggle({menuRef});
 
   const loading = !movies;

@@ -2,7 +2,7 @@ import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from 
 import React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext";
+import { useSelector } from "react-redux";
 import { auth } from "../firebase-config";
 
 const ChangePassword = () => {
@@ -10,10 +10,11 @@ const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { userInfo, setUserInfo } = useAuth();
   const handleSubmit = (e) => {
     e.preventDefault();
-  }
+  };
+  const userInfo = useSelector((state) => state.auth.userInfo)
+
   return (
     <div className="w-full mb-10 text-white">
       <h1 className="text-[40px] font-semibold block mb-10 w-full text-center">

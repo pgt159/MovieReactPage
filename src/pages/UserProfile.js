@@ -1,23 +1,20 @@
 import {
-  updateEmail,
   updateProfile,
-  signOut,
   deleteUser,
   reauthenticateWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import React, { useState } from "react";
 import { auth, db } from "../firebase-config";
-import { toast, ToastContainer } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import Modal from "../components/modal/Modal";
 import ConfirmModal from "../components/modal/ConfirmModal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
 import { doc, deleteDoc, collection, getDocs } from "firebase/firestore";
-import ChangePassword from "./ChangePassword";
 
 const UserProfile = () => {
-  const { userInfo, setUserInfo } = useAuth();
+  const userInfo = useSelector((state) => state.auth.userInfo)
   const [displayNameEdit, setDisplayNameEdit] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [loading, setLoading] = useState(false);

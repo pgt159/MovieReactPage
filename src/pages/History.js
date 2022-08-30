@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
-import { tmdb } from "../config";
-import { usePersonal } from "../context/PersonalContext";
-import axios from "axios";
 import { useState } from "react";
 import MovieCard from "../components/movieCard/MovieCard";
 import CheckBox from "../components/checkBox/CheckBox";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import {useSelector} from 'react-redux'
+import { doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 const History = () => {
-  const { history, moviesHistory } = usePersonal();
+  const { history, moviesHistory, currentId } = useSelector(
+    (state) => state.personal
+  );
   const [edit, setEdit] = useState(false);
   const [selected, setSelected] = useState([]);
-  const { currentId } = usePersonal();
   return (
     <div className="w-full mb-10 text-white">
       <h1 className="text-[40px] font-semibold block mb-5 w-full text-center items-center">

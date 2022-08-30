@@ -5,31 +5,33 @@ import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieListItem from "../components/movieCard/MovieListItem";
 import { tmdb } from "../config";
-import { useAuth } from "../context/AuthContext";
-import { usePersonal } from "../context/PersonalContext";
 import { db } from "../firebase-config";
 import useGetMovies from "../hooks/useGetMovies";
+import { useDispatch, useSelector } from "react-redux";
+import { setHistory, setBookmarkId } from "../redux/PersonalSlice/personalSlice";
+
 const MovieDetailPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
   const [credit, setCredit] = useState([]);
   const [video, setVideo] = useState();
   const [similar, setSimilar] = useState();
-  const {userInfo} = useAuth();
   const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
-  const { history, setHistory, currentId, bookmarkId, setBookmarkId } = usePersonal();
+  const { history, currentId, bookmarkId, } =
+    useSelector((state) => state.personal);
   const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, "credits"));
   const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, "videos"));
   const similarResponse = useGetMovies(
     tmdb.getMovieDetails(movieId, "similar")
   );
+  const userInfo = useSelector((state) => state.auth.userInfo);
   useEffect(() => {
     setMovie(response);
     setCredit(creditResponse?.cast?.slice(0, 5));
     setVideo(videoResponse);
     setSimilar(similarResponse);
   }, [response, creditResponse, videoResponse, similarResponse]);
-
+  const dispatch = useDispatch();
   return (
     <div className="flex flex-col gap-5 text-white pb-10">
       <div className="h-[500px] w-full top-0 left-[50%] -translate-x-2/4 absolute -z-10">
@@ -53,27 +55,26 @@ const MovieDetailPage = () => {
         <button
           onClick={async () => {
             if (!userInfo) {
-              toast.error('You have to be signed in to use this service');
-              return
+              toast.error("You have to be signed in to use this service");
+              return;
             }
-            console.log(bookmarkId);
             const newArray = [...bookmarkId];
             const index = newArray.indexOf(+movieId);
-            console.log(index);
             if (index > -1) {
               newArray.splice(index, 1);
-              setBookmarkId(newArray);
+              console.log(newArray)
+              dispatch(setBookmarkId(newArray));
               await updateDoc(doc(db, "users", currentId), {
                 bookmark: JSON.stringify([...newArray]),
               });
-              return
+              return;
             }
             if (newArray.length >= 20) {
               newArray.pop();
             }
-            console.log(bookmarkId.includes(+movieId));
             newArray.unshift(+movieId);
-            setBookmarkId(newArray);
+            console.log(newArray)
+            dispatch(setBookmarkId(newArray));
             await updateDoc(doc(db, "users", currentId), {
               bookmark: JSON.stringify([...newArray]),
             });
@@ -98,10 +99,9 @@ const MovieDetailPage = () => {
           to={`/movies/${movieId}/watch`}
           className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary my-2 text-white text-xl"
           onClick={async () => {
-            if (!userInfo) return
+            if (!userInfo) return;
             const newArray = [...history];
             const index = newArray.indexOf(+movieId);
-            console.log(index);
             if (index > -1) {
               newArray.splice(index, 1);
             }
@@ -109,7 +109,7 @@ const MovieDetailPage = () => {
               newArray.pop();
             }
             newArray.unshift(+movieId);
-            setHistory(newArray);
+            dispatch(setHistory(newArray));
             await updateDoc(doc(db, "users", currentId), {
               history: JSON.stringify([...newArray]),
             });
@@ -180,7 +180,6 @@ const MovieDetailPage = () => {
             allowFullScreen
           ></iframe>
         ) : (
-          (
           <div className="flex md:flex-row md:gap-10 flex-col gap-5 justify-center items-center">
             <div className="max-w-[300px] ">
               <img
@@ -193,8 +192,6 @@ const MovieDetailPage = () => {
               Sorry, we could not find the trailer
             </span>
           </div>
-        )
-          
         )}
       </div>
       <div className="flex flex-col gap-y-10 md:mt-0 mt-8">
