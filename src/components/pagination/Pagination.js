@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, NavLink } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import PaginationLink from "./PaginationLink";
 
@@ -21,7 +21,7 @@ const Pagination = ({ searchAPI, page, type }) => {
     }
     setArray(newArray);
     setCurrentPage(page);
-  }, [searchAPI, currentPage]);
+  }, [searchAPI, currentPage, page]);
 
   return (
     <div className="flex items-center justify-center gap-5 relative md:my-10 flex-row text-white">

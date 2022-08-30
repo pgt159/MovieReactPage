@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "../config";
 
 const useGetMovies = (endpoint) => {
   const [movies, setMovies] = useState([]);
-  const { data, error } = useSWR(endpoint, fetcher);
+  const { data } = useSWR(endpoint, fetcher);
   useEffect(() => {
     setMovies(data);
   }, [data]);

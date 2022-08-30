@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import useSWR from "swr";
-import { fetcher, tmdb } from "../config";
+import { tmdb } from "../config";
 import useGetMovies from "../hooks/useGetMovies";
 import axios from "axios";
 const MovieWatchPage = () => {
   const movieId = useParams().movieId;
-  const [movieLink, setMovieLink] = useState("");
+  // const [movieLink, setMovieLink] = useState("");
 
-  const loading = !movieLink;
+  // const loading = !movieLink;
   const [data, setData] = useState("");
   const movies = useGetMovies(tmdb.getMovieDetails(movieId));
   const [similar, setSimilar] = useState();
@@ -30,6 +29,7 @@ const MovieWatchPage = () => {
           <div className="relative flex w-full md:h-[50%] h-[350px] flex-shrink-0">
             {<iframe
               id="iframe"
+              title="iframe"
               src={`https://www.2embed.to/embed/tmdb/movie?id=${movieId}`}
               className="relative w-full h-full top-0 left-0"
               frameBorder="0"

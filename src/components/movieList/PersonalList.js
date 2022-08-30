@@ -11,12 +11,12 @@ const PersonalList = ({ type }) => {
   );
   const isLoading = !movies;
   useEffect(() => {
-    if (type == "history") {
+    if (type === "history") {
       setMovies(moviesHistory);
-    } else if (type == "bookmark") {
+    } else if (type === "bookmark") {
       setMovies(moviesBookmarkData);
     }
-  }, [moviesHistory]);
+  }, [moviesHistory,moviesBookmarkData,type]);
   return (
     <div className="w-full movie-list relative">
       {isLoading && (

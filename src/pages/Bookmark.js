@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import MovieCard from "../components/movieCard/MovieCard";
 import CheckBox from "../components/checkBox/CheckBox";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 const Bookmark = () => {

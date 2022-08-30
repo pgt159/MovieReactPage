@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -6,10 +5,10 @@ const useClickToggle = ({ menuRef }) => {
   const [isShow, setIsShow] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   function windowClick(e) {
-      if (e.target == menuRef.current) {
+      if (e.target === menuRef.current) {
         setIsShow((x) => !x);
         return;
-      } else if (e.target != menuRef.current) {
+      } else if (e.target !== menuRef.current) {
         setIsShow(false);
       }
     

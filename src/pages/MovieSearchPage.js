@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import useGetMovies from "../hooks/useGetMovies";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { fetcher, tmdb } from "../config";
 import { v4 } from "uuid";
 import MovieCard, { MovieCardLoading } from "../components/movieCard/MovieCard";
-import Pagination from "../components/pagination/Pagination";
 import useSWRInfinite from "swr/infinite";
 
 const MovieSearchPage = () => {
   const movieName = useParams().movieName;
-  const [url, setUrl] = useState(tmdb.getMovieSearchPage(movieName)) 
-  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+  const [url] = useState(tmdb.getMovieSearchPage(movieName)) 
+  const { data, size, setSize } = useSWRInfinite(
     (index) => url.replace("page=1", `page=${index + 1}`),
     fetcher
   );
-  console.log(data)
   const movies = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
   const isEmpty = data?.[0]?.results.length === 0;
   const isReachingEnd =
@@ -42,8 +39,7 @@ const MovieSearchPage = () => {
                   item?.vote_average &&
                   item?.release_date &&
                   item?.id
-                )
-                  return (
+                ) {return (
                     <div
                       className="md:w-[240px] w-[40%] flex-shrink-0"
                       key={item.id}
@@ -57,7 +53,7 @@ const MovieSearchPage = () => {
                         item={item}
                       ></MovieCard>
                     </div>
-                  );
+                  )};
               })}
           </div>
 
@@ -67,11 +63,7 @@ const MovieSearchPage = () => {
             isReachingEnd ? "opacity-50 pointer-events-none" : ""
           }`}
             onClick={() => {
-              if (isReachingEnd) {
-                return null;
-              } else {
-                setSize(size + 1);
-              }
+              if (isReachingEnd) {return null} else {setSize(size + 1)};
             }}
           >
             Load more

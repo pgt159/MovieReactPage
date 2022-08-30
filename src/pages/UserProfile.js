@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import React, { useState } from "react";
 import { auth, db } from "../firebase-config";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Modal from "../components/modal/Modal";
 import ConfirmModal from "../components/modal/ConfirmModal/ConfirmModal";

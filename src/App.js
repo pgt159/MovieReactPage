@@ -38,7 +38,7 @@ function App() {
         dispatch(setUserInfo(''));
       }
     });
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     const arr = [];
     const bookmarkArr = [];
@@ -54,14 +54,14 @@ function App() {
           dispatch(setMoviesBookmarkData([...bookmarkArr]))
       })
     })
-  }, [history, bookmarkId]);
+  }, [history, bookmarkId, dispatch]);
   const userList = collection(db, "users");
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         const uid = currentUser.uid;
         onSnapshot(userList, (snapshot) => {
-          const result = snapshot.docs.forEach((doc) => {
+          snapshot.docs.forEach((doc) => {
             if (doc.data().uid === uid) {
               dispatch(setHistory(JSON.parse(doc.data().history)));
               dispatch(setBookmarkId(JSON.parse(doc.data().bookmark)));

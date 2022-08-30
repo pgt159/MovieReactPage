@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import useClickToggle from "../../hooks/useClickToggle";
 
 const ProfileSideBar = () => {
   const menuRef = useRef();
-  const { isMobile, isShow } = useClickToggle({ menuRef });
+  const { isShow } = useClickToggle({ menuRef });
 
   return (
     <div className="">

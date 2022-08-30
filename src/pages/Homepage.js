@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import Header from "../components/layout/Header";
 import MovieList from "../components/movieList/MovieList";
 import PersonalList from "../components/movieList/PersonalList";
 import { useSelector } from "react-redux";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import MovieCard, { MovieCardLoading } from "../components/movieCard/MovieCard";
@@ -7,8 +7,8 @@ import useSWRInfinite from "swr/infinite";
 
 const MoviePage = () => {
   const page = useParams().page;
-  const [url, setUrl] = useState(tmdb.getMovieList("popular", page));
-  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+  const [url] = useState(tmdb.getMovieList("popular", page));
+  const { data, size, setSize } = useSWRInfinite(
     (index) => url.replace("page=1", `page=${index + 1}`),
     fetcher
   );

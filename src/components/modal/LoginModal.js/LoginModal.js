@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {signInWithEmailAndPassword} from 'firebase/auth'
-import SearchBar from "../../layout/SearchBar";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { auth } from "../../../firebase-config";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { tmdb } from "../../config";

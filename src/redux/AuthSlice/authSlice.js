@@ -1,7 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
-import { auth } from "../../firebase-config";
 let initialState = {
   userInfo: []
 };

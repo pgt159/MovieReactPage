@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
 import MovieCard from "../components/movieCard/MovieCard";
 import CheckBox from "../components/checkBox/CheckBox";
 import {useSelector} from 'react-redux'
-import { doc, getDocs, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 const History = () => {

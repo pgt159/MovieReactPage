@@ -1,5 +1,4 @@
-import React, { Fragment } from "react";
-import SearchBar from "../layout/SearchBar";
+import React from "react";
 
 const Modal = ({ show, setShow, children }) => {
     const handleClick = (e) => {

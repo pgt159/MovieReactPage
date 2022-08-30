@@ -13,7 +13,7 @@ const CheckBox = ({id, selected, setSelected}) => {
                 hover:bg-slate-700"
                 onClick={() => {
                     if (selected.includes(id)){
-                        const result = selected.filter(item => (item != id))
+                        const result = selected.filter(item => (item !== id))
                         setSelected(result)
                     } else {
                         setSelected([...selected, id])
