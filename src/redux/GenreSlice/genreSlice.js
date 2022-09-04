@@ -27,8 +27,12 @@ const genreSlice = createSlice({
   initialState,
   reducers: {
     getGenreList() {},
+    setGenreList: (state, {payload}) => ({
+      ...state,
+      genreList: payload
+    })
   },
 });
 
-export const { getGenreList } = genreSlice.actions;
+export const { getGenreList, setGenreList } = genreSlice.actions;
 export default genreSlice.reducer;

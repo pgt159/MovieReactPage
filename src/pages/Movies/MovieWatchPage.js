@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { tmdb } from "../config";
-import useGetMovies from "../hooks/useGetMovies";
+import { tmdb } from "../../config";
+import useGetMovies from "../../hooks/useGetMovies";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setType } from "../../redux/TypeSlice/typeSlice";
 const MovieWatchPage = () => {
   const movieId = useParams().movieId;
-  // const [movieLink, setMovieLink] = useState("");
-
-  // const loading = !movieLink;
   const [data, setData] = useState("");
   const movies = useGetMovies(tmdb.getMovieDetails(movieId));
   const [similar, setSimilar] = useState();
   const similarResponse = useGetMovies(
     tmdb.getMovieDetails(movieId, "similar")
   );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setType('Movies'))
+  },[])
   useEffect(() => {
     setSimilar(similarResponse);
     axios.get("https://2embed.org/embed/movie?imdb=tt6403680").then((res) => {
       setData(res);
-      console.log(data)
-      console.log(data)
     });
   }, [similarResponse]);
   return (
@@ -118,8 +119,8 @@ const MovieWatchPage = () => {
                   />
                 </div>
 
-                <div className="flex flex-col flex-grow gap-3 justify-center p-3">
-                  <span className="md:text-xl text-2xl flex-grow-0">
+                <div className="flex flex-col flex-grow gap-3 justify-center p-3 truncate">
+                  <span className="md:text-xl text-2xl flex-grow-0 max-w-full truncate">
                     {item.title}
                   </span>
                   <span className="text-gray-500 mb-6 md:text-md text-lg">
@@ -147,7 +148,7 @@ const MovieWatchPage = () => {
               </Link>
             ))}
           <Link
-            to={"/movies&page=1"}
+            to={"/explore&page=1"}
             className="w-full py-2 hover:bg-gray-700 transition-all
              bg-gray-800 my-4 text-center rounded-3xl block md:text-md text-xl"
           >

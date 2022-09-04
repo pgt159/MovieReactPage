@@ -19,13 +19,17 @@
   }
 
   .movie-list .swiper-slide {
-    width: 23%;
-    @media screen and (max-width: 1024px) and (min-width: 760px) {
-      width: 40%;
-    }
+    width: 250px;
+    // @media screen and (max-width: 1024px) and (min-width: 760px) {
+    //   width: 40%;
+    // }
     @media screen and (max-width: 760px) {
-      width: auto;
+      width: 200px;
     }
+  }
+
+  .ep-list .swiper-slide {
+    width: 100%;
   }
 
   .banner-wrapper {

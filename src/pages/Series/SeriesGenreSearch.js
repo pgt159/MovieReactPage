@@ -1,18 +1,28 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { MovieCardLoading } from "../components/movieCard/MovieCard";
-import { tmdbSeries } from "../config";";
+import { v4 } from "uuid";
+import MovieCard, {
+  MovieCardLoading,
+} from "../../components/movieCard/MovieCard";
+import Pagination from "../../components/pagination/Pagination";
+import { tmdbSeries } from "../../config";
+import useGetMovies from "../../hooks/useGetMovies";
+import { setType } from "../../redux/TypeSlice/typeSlice";
 
-const GenresSearchPage = () => {
+const SeriesGenreSearch = () => {
   const genre = useParams().genre;
+  const dispatch = useDispatch();
   const page = useParams().page;
   const type = useParams().type;
   const searchAPI = useGetMovies(tmdbSeries.getSeriesGenreList(genre, page));
   const loading = !searchAPI;
-
-
+  useEffect(() => {
+    dispatch(setType("Series"));
+  }, []);
   return (
-    <div className="">
+    <>
       {loading ? (
         <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
           {new Array(20).fill(0).map((item) => (
@@ -62,8 +72,8 @@ const GenresSearchPage = () => {
           There is no result for {genre}
         </span>
       )}
-    </div>
+    </>
   );
 };
 
-export default GenresSearchPage;
+export default SeriesGenreSearch;

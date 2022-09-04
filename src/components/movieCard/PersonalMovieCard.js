@@ -1,39 +1,76 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { flexible } from "../../config";
 import LoadingSkeleton from "../../loading/LoadingSkeleton";
+import ButtonWatch from "../button/ButtonWatch";
 
-const MovieListItem = ({ name, src, vote, release, id }) => {
+const PersonalMovieCard = ({ id, type }) => {
+  const [result, setResult] = useState({
+    name: "",
+    src: "",
+    vote: "",
+    release: "",
+    id: "",
+  });
+  useEffect(() => {
+    axios.get(flexible.getDetails(type, id)).then((res) => {
+      console.log(res)
+      setResult({
+        ...result,
+        name: res.data.name || res.data.title,
+        src: `https://image.tmdb.org/t/p/w500${res.data.poster_path}`,
+        vote: Math.round(res.data.vote_average * 10) / 10,
+        release: new Date(
+          res.data.first_air_date || res.data.release_date
+        ).getFullYear(),
+        id,
+      });
+    });
+  }, []);
   const navigate = useNavigate();
-  const {currentType} = useSelector((state) => state.type)
+  const { currentType } = useSelector((state) => state.type);
+  const navigationIfType = () => {
+    if (type === 'movie') {
+      navigate(`/movies/${id}}`)
+    } else {
+      navigate(`/series/${id}`)
+    }
+  };
   return (
     <div
-      className="cursor-pointer w-full h-[320px] 
-      md:h-[400px] rounded-xl overflow-hidden p-3 relative select-none"
-      onClick={() => navigate(`${currentType === 'Movies' ? `/movies/${id}` : `/series/${id}`}`)}
+      className="max-w-[200px] md:max-w-full h-[400px] md:h-auto 
+    rounded-xl overflow-hidden p-3 relative select-none md:hover:scale-110 transition-all cursor-pointer"
+      onClick={navigationIfType}
     >
-      <div className="z-50 relative w-full h-full flex flex-col gap-y-2 ">
-        <div className="max-w-full h-[250px] md:h-[85%] rounded-xl">
+      <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
+        <div className="max-w-full h-[300px] rounded-xl">
           <img
-            src={`https://image.tmdb.org/t/p/w500/${src}`}
+            src={`https://image.tmdb.org/t/p/w500/${result.src}`}
             alt=""
             className="w-full h-full object-cover rounded-xl"
           />
         </div>
 
-        <span className="truncate max-w-[80%] h-[30px] mt-2">{name}</span>
+        <span className="truncate max-w-[80%] h-[30px] mt-2">{result.name}</span>
         <div className="flex flex-row justify-between text-sm absolute z-30 gap-1 top-0 left-0 w-full md:p-2">
+          <span className=" drop-shadow-lg bg-tags p-2 rounded-lg md:px-4 md:py-2 font-semibold text-white bg-opacity-50">
+            {result.release}
+          </span>
           <div className="flex flex-row items-center gap-x-3 ">
             <span
               className="drop-shadow-lg bg-tags 
             rounded-lg md:px-3 md:py-2 p-2  font-semibold text-white bg-opacity-50 flex gap-1 justify-center items-center"
             >
-              {Math.round(vote * 10) / 10}
+              {result.vote}
               <svg
                 width="20"
                 height="20"
                 viewBox="0 0 16 15"
-                fill="white"
+                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 className="inline"
               >
@@ -46,27 +83,37 @@ const MovieListItem = ({ name, src, vote, release, id }) => {
                        3.63059 13.4477L5.01525 9.18612C5.06211 9.04191 5.01078 8.88393 4.88811 8.7948L1.26301 
                        6.16102C0.988711 5.96173 1.12968 5.52786 1.46874 5.52786H5.9496C6.10123 5.52786 6.23561 
                        5.43023 6.28247 5.28602L7.66713 1.02447Z"
+                  stroke="#FFB86C"
+                  strokeWidth="1.5"
                 />
               </svg>
             </span>
           </div>
         </div>
-
-        {/*  */}
+        <ButtonWatch
+          onClick={
+            navigationIfType
+          }
+          className="text-lg flex justify-center 
+          items-center px-4 py-2 mt-auto relative bottom-0 rounded-xl"
+          bgColor={"secondary"}
+        >
+          Watch now
+        </ButtonWatch>
       </div>
       <div className="absolute inset-0 p-3">
         <img
-          src={`https://image.tmdb.org/t/p/w500/${src}`}
+          src={`https://image.tmdb.org/t/p/w500/${result.src}`}
           alt=""
-          className="w-full h-full object-cover rounded-xl hidden md:block"
+          className="w-full h-full object-cover rounded-xl"
         />
-        <div className="layer absolute inset-0 md:backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
+        <div className="layer absolute inset-0 backdrop-blur-md rounded-xl bg-[#000000] bg-opacity-40"></div>
       </div>
     </div>
   );
 };
 
-export default MovieListItem;
+export default PersonalMovieCard;
 
 export const MovieCardLoading = () => {
   return (

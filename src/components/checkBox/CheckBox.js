@@ -1,25 +1,26 @@
 import React from "react";
 import { useEffect } from "react";
 
-const CheckBox = ({id, selected, setSelected}) => {
-     let isSelected = selected.includes(id);
+const CheckBox = ({listItem, selected, setSelected}) => {
+     let isSelected = selected.includes(listItem);
+     console.log(selected)
      useEffect(() => {
-        isSelected = selected.includes(id)
+        isSelected = selected.includes(listItem);
+        console.log(isSelected)
      },[selected])
+
   return (
     <button
       className="w-6 h-6 border-[3px] border-secondary 
                 my-3 relative left-2/4 -translate-x-2/4 hover:border-subText transition-all
                 hover:bg-slate-700"
                 onClick={() => {
-                    if (selected.includes(id)){
-                        const result = selected.filter(item => (item !== id))
-                        setSelected(result)
+                    if (selected.includes(listItem)){
+                        const result = selected.filter(item => (JSON.stringify(item) !== JSON.stringify(listItem)));
+                        setSelected([...result]);
                     } else {
-                        setSelected([...selected, id])
-                        console.log(selected)
+                        setSelected([...selected, listItem])
                     }
-                    // console.log(selected)
                 }}
     >
       {isSelected && <svg

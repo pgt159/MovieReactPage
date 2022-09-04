@@ -3,27 +3,30 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
-import MovieListItem from "../components/movieCard/MovieListItem";
-import { tmdb } from "../config";
-import { db } from "../firebase-config";
-import useGetMovies from "../hooks/useGetMovies";
+import MovieListItem from "../../components/movieCard/MovieListItem";
+import { tmdbSeries } from "../../config";
+import { db } from "../../firebase-config";
+import useGetMovies from "../../hooks/useGetMovies";
 import { useDispatch, useSelector } from "react-redux";
-import { setHistory, setBookmarkId } from "../redux/PersonalSlice/personalSlice";
+import { setHistory, setBookmarkId, log } from "../../redux/PersonalSlice/personalSlice";
+import { setType } from "../../redux/TypeSlice/typeSlice";
 
-const MovieDetailPage = () => {
+const SeriesDetailPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState({});
   const [credit, setCredit] = useState([]);
   const [video, setVideo] = useState();
   const [similar, setSimilar] = useState();
-  const response = useGetMovies(tmdb.getMovieDetails(movieId, null));
+  const response = useGetMovies(tmdbSeries.getSeriesDetails(movieId, null));
+  console.log(response)
   const { history, currentId, bookmarkId, } =
     useSelector((state) => state.personal);
-  const creditResponse = useGetMovies(tmdb.getMovieDetails(movieId, "credits"));
-  const videoResponse = useGetMovies(tmdb.getMovieDetails(movieId, "videos"));
+  const creditResponse = useGetMovies(tmdbSeries.getSeriesDetails(movieId, "credits"));
+  const videoResponse = useGetMovies(tmdbSeries.getSeriesDetails(movieId, "videos"));
   const similarResponse = useGetMovies(
-    tmdb.getMovieDetails(movieId, "similar")
+    tmdbSeries.getSeriesDetails(movieId, "similar")
   );
+  const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.auth.userInfo);
   useEffect(() => {
     setMovie(response);
@@ -31,7 +34,16 @@ const MovieDetailPage = () => {
     setVideo(videoResponse);
     setSimilar(similarResponse);
   }, [response, creditResponse, videoResponse, similarResponse]);
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setType('Series'))
+  },[]);
+  const seriesItem = { id: +movieId, type: "tv" };
+  const isMarked = Boolean(
+    bookmarkId.filter(
+      (item) => JSON.stringify(item) === JSON.stringify(seriesItem)
+    ).length
+  );
   return (
     <div className="flex flex-col gap-5 text-white pb-10">
       <div className="h-[500px] w-full top-0 left-[50%] -translate-x-2/4 absolute -z-10">
@@ -49,7 +61,7 @@ const MovieDetailPage = () => {
         />
       </div>
       <span className="md:text-[30px] text-[25px] mx-auto font-semibold">
-        {movie?.title}
+        {movie?.name}
       </span>
       <div className="flex flex-row gap-5 justify-center">
         <button
@@ -58,11 +70,11 @@ const MovieDetailPage = () => {
               toast.error("You have to be signed in to use this service");
               return;
             }
-            const newArray = [...bookmarkId];
-            const index = newArray.indexOf(+movieId);
-            if (index > -1) {
-              newArray.splice(index, 1);
-              console.log(newArray)
+            let newArray = [...bookmarkId];
+            if (isMarked) {
+              newArray = newArray.filter(
+                (item) => JSON.stringify(item) !== JSON.stringify(seriesItem)
+              );
               dispatch(setBookmarkId(newArray));
               await updateDoc(doc(db, "users", currentId), {
                 bookmark: JSON.stringify([...newArray]),
@@ -72,8 +84,7 @@ const MovieDetailPage = () => {
             if (newArray.length >= 20) {
               newArray.pop();
             }
-            newArray.unshift(+movieId);
-            console.log(newArray)
+            newArray.unshift(seriesItem);
             dispatch(setBookmarkId(newArray));
             await updateDoc(doc(db, "users", currentId), {
               bookmark: JSON.stringify([...newArray]),
@@ -83,9 +94,9 @@ const MovieDetailPage = () => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10"
-            fill={bookmarkId.includes(+movieId) ? "red" : "none"}
+            fill={isMarked ? "red" : "none"}
             viewBox="0 0 24 24"
-            stroke={bookmarkId.includes(+movieId) ? "none" : "currentColor"}
+            stroke={isMarked ? "none" : "currentColor"}
             strokeWidth={1}
           >
             <path
@@ -96,19 +107,18 @@ const MovieDetailPage = () => {
           </svg>
         </button>
         <Link
-          to={`/movies/${movieId}/watch`}
+          to={`/series/${movieId}/watch&season=1&ep=1`}
           className="px-6 py-3 rounded-xl hover:opacity-80 transition-all bg-primary my-2 text-white text-xl"
           onClick={async () => {
             if (!userInfo) return;
-            const newArray = [...history];
-            const index = newArray.indexOf(+movieId);
-            if (index > -1) {
-              newArray.splice(index, 1);
-            }
+            let newArray = [...history];
+            newArray = newArray.filter(
+              (item) => JSON.stringify(item) !== JSON.stringify(seriesItem)
+            );
             if (newArray.length >= 20) {
               newArray.pop();
             }
-            newArray.unshift(+movieId);
+            newArray.unshift(seriesItem);
             dispatch(setHistory(newArray));
             await updateDoc(doc(db, "users", currentId), {
               history: JSON.stringify([...newArray]),
@@ -123,7 +133,7 @@ const MovieDetailPage = () => {
         {movie?.genres?.length > 0 &&
           movie?.genres?.map((item) => (
             <Link
-              to={`/movies/page=1&searchGenre=${item.id}&type=${item.name}`}
+              to={`/series/page=1&searchGenre=${item.id}&type=${item.name}`}
               key={movie?.genres?.indexOf(item)}
               className="border border-tags rounded-xl text-tags flex justify-center items-center p-2 hover:text-white hover:bg-tags transition-all"
             >
@@ -208,6 +218,7 @@ const MovieDetailPage = () => {
                     release={item.release_date || item.first_air_date}
                     id={item.id}
                     item={item}
+                    type={item.seasons}
                   ></MovieListItem>
                 </SwiperSlide>
               ))}
@@ -218,4 +229,4 @@ const MovieDetailPage = () => {
   );
 };
 
-export default MovieDetailPage;
+export default SeriesDetailPage;

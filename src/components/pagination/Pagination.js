@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import PaginationLink from "./PaginationLink";
@@ -8,12 +9,11 @@ const Pagination = ({ searchAPI, page, type }) => {
   const movieName = useParams().movieName;
   const [currentPage, setCurrentPage] = useState(page);
   const [array, setArray] = useState([]);
-
+  const {currentType} = useSelector((state) => state.type)
   useEffect(() => {
     const newArray = Array(
       searchAPI?.total_pages > 500 ? 500 : searchAPI?.total_pages
     );
-    console.log(newArray);
     if (newArray?.length > 0) {
       for (let i = 0; i < newArray?.length; i++) {
         newArray[i] = Number(i) + 1;
@@ -29,10 +29,8 @@ const Pagination = ({ searchAPI, page, type }) => {
         onClick={() => {
           if (page <= 1) return;
           navigate(
-            `/movies&page=${page - 1}${
-              movieName
-                ? `&search=${movieName}`
-                : type
+            `/${currentType === 'Movies' ? 'movies' : 'series'}/page=${page - 1}${
+              type
                 ? `&searchGenre=${type.id}&type=${type.name}`
                 : ""
             }`
@@ -121,10 +119,8 @@ const Pagination = ({ searchAPI, page, type }) => {
           onClick={() => {
             if (page >= 500) return;
             navigate(
-              `/movies&page=${+page + 1}${
-                movieName
-                  ? `&search=${movieName}`
-                  : type
+              `/${currentType === 'Movies' ? 'movies' : 'series'}/page=${+page + 1}${
+                type
                   ? `&searchGenre=${type.id}&type=${type.name}`
                   : ""
               }`

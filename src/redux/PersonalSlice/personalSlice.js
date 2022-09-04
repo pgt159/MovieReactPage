@@ -31,7 +31,7 @@ const personalSlice = createSlice({
     setCurrentId: (state, { payload }) => ({
       ...state,
       currentId: payload,
-    }),
+    })
   },
 });
 

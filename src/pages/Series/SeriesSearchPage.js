@@ -1,22 +1,29 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetcher, tmdb } from "../config";
+import { fetcher, tmdbSeries } from "../../config";
 import { v4 } from "uuid";
-import MovieCard, { MovieCardLoading } from "../components/movieCard/MovieCard";
+import MovieCard, { MovieCardLoading } from "../../components/movieCard/MovieCard";
 import useSWRInfinite from "swr/infinite";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setType } from "../../redux/TypeSlice/typeSlice";
 
-const MovieSearchPage = () => {
+const SeriesSearchPage = () => {
+  const dispatch = useDispatch()
   const movieName = useParams().movieName;
-  const [url] = useState(tmdb.getMovieSearchPage(movieName)) 
+  const [url] = useState(tmdbSeries.getSeriesSearchPage(movieName)) 
   const { data, size, setSize } = useSWRInfinite(
     (index) => url.replace("page=1", `page=${index + 1}`),
     fetcher
   );
-  const movies = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
-  const isEmpty = data?.[0]?.results.length === 0;
+  useEffect(() => {
+    dispatch(setType('Series'))
+  },[])
+  const series = data ? data.reduce((a, b) => a.concat(b.results), []) : [];
+  const isEmpty = data?.[0]?.results?.length === 0;
   const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.results.length < 20);
-  const loading = !movies;
+    isEmpty || (data && data[data?.length - 1]?.results?.length < 20);
+  const loading = !series;
 
   return (
     <div className="">
@@ -28,16 +35,16 @@ const MovieSearchPage = () => {
             </div>
           ))}
         </div>
-      ) : movies?.length > 0 ? (
+      ) : series?.length > 0 ? (
         <>
           <div className="w-full h-auto text-white flex flex-wrap flex-row md:gap-7 gap-3 justify-center">
-            {movies?.length > 0 &&
-              movies?.map((item) => {
+            {series?.length > 0 &&
+              series?.map((item) => {
                 if (
-                  item?.title &&
+                  item?.name &&
                   item?.poster_path &&
                   item?.vote_average &&
-                  item?.release_date &&
+                  item?.first_air_date &&
                   item?.id
                 ) {return (
                     <div
@@ -45,10 +52,10 @@ const MovieSearchPage = () => {
                       key={item.id}
                     >
                       <MovieCard
-                        name={item?.title}
+                        name={item?.name}
                         src={item?.poster_path}
                         vote={item?.vote_average}
-                        release={item?.release_date}
+                        release={item?.first_air_date}
                         id={item?.id}
                         item={item}
                       ></MovieCard>
@@ -79,4 +86,4 @@ const MovieSearchPage = () => {
   );
 };
 
-export default MovieSearchPage;
+export default SeriesSearchPage;

@@ -4,7 +4,7 @@ import Genres from "../genresSelector/Genres";
 import LoginModal from "../modal/LoginModal.js/LoginModal";
 import Modal from "../modal/Modal";
 import SearchModal from "../modal/searchModal/SearchModal";
-import UserStatus from "../user/UserStatus";
+import Status from "../user/Status";
 const list = [
   {
     id: 1,
@@ -14,7 +14,7 @@ const list = [
   {
     id: 2,
     title: "Explore",
-    to: "/movies&page=1",
+    to: "/explore&page=1",
   },
 ];
 const Header = () => {
@@ -27,7 +27,7 @@ const Header = () => {
   };
   return (
     <Fragment>
-      <div className="z-[200] flex md:flex-row gap-10 flex-col justify-between mb-5 p-5 bg-slate-900 items-center relative rounded-lg bg-opacity-70">
+      <div className="z-[200] flex md:flex-row flex-col justify-between mb-5 p-5 bg-slate-900 items-center relative rounded-lg bg-opacity-70">
         <div
           className={`header text-white flex items-center justify-center md:gap-7 gap-4 z-[60]`}
         >
@@ -47,10 +47,10 @@ const Header = () => {
           <Genres isHovered={isHovered} setIsHovered={setIsHovered}></Genres>
           <button onClick={() => handleClick(<SearchModal></SearchModal>)} className='hover:text-primary transition-all'>Search</button>
         </div>
-          <UserStatus
+          <Status
             onClick={() => handleClick( <LoginModal setShow={setModalShow}></LoginModal> )}
-            className={'relative right-0 top-0'}
-          ></UserStatus>
+            className={'relative right-0 top-0 flex flex-row md:gap-4 gap-3 mt-10 md:mt-0'}
+          ></Status>
         <Modal show={modalShow} setShow={setModalShow}>
           {child}
         </Modal>

@@ -1,18 +1,17 @@
 import React from "react";
 import { useRef } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { tmdb } from "../../config";
 import useClickToggle from "../../hooks/useClickToggle";
-import useGetMovies from "../../hooks/useGetMovies";
 
 const Genres = ({ isHovered, setIsHovered }) => {
-
-  const movies = useGetMovies(tmdb.getMovieGenre())?.genres;
+  const genres = useSelector((state) => state.genre.genreList);
+  const { currentType } = useSelector((state) => state.type);
   const navigate = useNavigate();
   const menuRef = useRef();
-  const {isMobile, isShow, setIsShow} = useClickToggle({menuRef});
+  const { isMobile, isShow, setIsShow } = useClickToggle({ menuRef });
 
-  const loading = !movies;
+  const loading = !genres;
   const handleOpenGenres = (e) => {
     if (!isMobile) {
       setIsShow(true);
@@ -20,7 +19,6 @@ const Genres = ({ isHovered, setIsHovered }) => {
   };
   const handleCloseGenres = (e) => {
     if (!isMobile) {
-
       setIsShow(false);
     }
   };
@@ -30,7 +28,9 @@ const Genres = ({ isHovered, setIsHovered }) => {
       onMouseEnter={handleOpenGenres}
       onMouseLeave={handleCloseGenres}
     >
-      <span className="cursor-pointer w-full h-full" ref={menuRef}>Genres</span>
+      <span className="cursor-pointer w-full h-full" ref={menuRef}>
+        Genres
+      </span>
       <div
         className={`genres-list p-5 flex flex-wrap gap-4 justify-start items-center transition-all ${
           isShow ? "translate-x-0 md:flex" : "translate-x-full md:hidden"
@@ -43,15 +43,19 @@ const Genres = ({ isHovered, setIsHovered }) => {
           border-secondary border-r-transparent animate-spin genre-list"
           ></div>
         )}
-        {movies?.length > 0 &&
-          movies.map((item) => (
+        {genres?.length > 0 &&
+          genres.map((item) => (
             <div
               key={item.id}
               className="w-auto mx-5 cursor-pointer hover:text-primary text-white transition-all"
               onClick={() => {
-                setIsHovered(false)
+                setIsHovered(false);
                 navigate(
-                  `/movies/page=1&searchGenre=${item.id}&type=${item.name}`
+                  `${
+                    currentType === "Movies"
+                      ? `/movies/page=1&searchGenre=${item.id}&type=${item.name}`
+                      : `/series/page=1&searchGenre=${item.id}&type=${item.name}`
+                  }`
                 );
               }}
             >

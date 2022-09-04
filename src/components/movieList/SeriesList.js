@@ -1,14 +1,14 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { tmdb } from "../../config";
+import {  tmdbSeries } from "../../config";
 import useGetMovies from "../../hooks/useGetMovies";
 import { SlideNextButton, SlidePrevButton } from "../button/SlideButton";
 import { MovieCardLoading } from "../movieCard/MovieCard";
 import MovieListItem from "../movieCard/MovieListItem";
 
-const MovieList = ( {type} ) => {
+const SeriesList = ( {type} ) => {
   
-  const movies = useGetMovies(tmdb.getMovieList(type));
+  const movies = useGetMovies(tmdbSeries.getSeriesList(type));
   const isLoading = !movies || movies.length < 1;
   return (
     <div className="w-full movie-list relative">
@@ -36,7 +36,7 @@ const MovieList = ( {type} ) => {
       </Swiper>
       )
     }
-      <Swiper grabCursor={"true"} spaceBetween={20} slidesPerView={`auto`}>
+      <Swiper grabCursor={"true"} spaceBetween={20} slidesPerView={"auto"} fadeEffect={false}>
       <SlideNextButton></SlideNextButton>
       <SlidePrevButton></SlidePrevButton>
         {movies?.results?.length > 0 &&
@@ -44,7 +44,7 @@ const MovieList = ( {type} ) => {
             <SwiperSlide key={item.id}>
               <MovieListItem
                 name={item.title || item.name}
-              src={item.poster_path}
+                src={item.poster_path}
                 vote={item.vote_average}
                 release={item.release_date || item.first_air_date}
                 id={item.id}
@@ -56,4 +56,4 @@ const MovieList = ( {type} ) => {
   );
 };
 
-export default MovieList;
+export default SeriesList;

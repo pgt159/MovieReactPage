@@ -1,18 +1,29 @@
 import React from "react";
+import { v4 } from "uuid";
+import MovieCard, {
+  MovieCardLoading,
+} from "../../components/movieCard/MovieCard";
+import Pagination from "../../components/pagination/Pagination";
+import { tmdb } from "../../config";
+import useGetMovies from "../../hooks/useGetMovies";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { MovieCardLoading } from "../components/movieCard/MovieCard";
-import { tmdbSeries } from "../config";";
+import { setType } from "../../redux/TypeSlice/typeSlice";
+import { useEffect } from "react";
 
-const GenresSearchPage = () => {
+const MoviesGenreSearch = () => {
   const genre = useParams().genre;
   const page = useParams().page;
   const type = useParams().type;
-  const searchAPI = useGetMovies(tmdbSeries.getSeriesGenreList(genre, page));
+  const searchAPI = useGetMovies(tmdb.getMovieGenreList(genre, page));
   const loading = !searchAPI;
-
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setType('Movies'))
+  },[])
   return (
-    <div className="">
+    <>
+      <span className="text-white text-center text-xl block mb-5">Result for <span className="text-primary">{type}</span> film</span>
       {loading ? (
         <div className="w-full h-auto text-white flex flex-wrap flex-row gap-y-7 gap-x-7 justify-center">
           {new Array(20).fill(0).map((item) => (
@@ -27,10 +38,10 @@ const GenresSearchPage = () => {
             {searchAPI?.results?.length > 0 &&
               searchAPI?.results?.map((item) => {
                 if (
-                  item?.name &&
+                  item?.title &&
                   item?.poster_path &&
                   item?.vote_average &&
-                  item?.first_air_date &&
+                  item?.release_date &&
                   item?.id
                 )
                   return (
@@ -39,10 +50,10 @@ const GenresSearchPage = () => {
                       key={item.id}
                     >
                       <MovieCard
-                        name={item?.name}
+                        name={item?.title}
                         src={item?.poster_path}
                         vote={item?.vote_average}
-                        release={item?.first_air_date}
+                        release={item?.release_date}
                         id={item?.id}
                         item={item}
                       ></MovieCard>
@@ -62,8 +73,8 @@ const GenresSearchPage = () => {
           There is no result for {genre}
         </span>
       )}
-    </div>
+    </>
   );
 };
 
-export default GenresSearchPage;
+export default MoviesGenreSearch;

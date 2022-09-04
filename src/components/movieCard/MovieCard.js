@@ -1,15 +1,23 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LoadingSkeleton from "../../loading/LoadingSkeleton";
 import ButtonWatch from "../button/ButtonWatch";
 
-const MovieCard = ({ name, src, vote, release, id }) => {
+const MovieCard = ({ name, src, vote, release, id}) => {
   const navigate = useNavigate();
+  const { currentType } = useSelector((state) => state.type);
+  const navigationIfType = () => {
+    navigate(
+      `${currentType === "Movies" ? `/movies/${id}` : `/series/${id}`}`
+    )
+  }
   return (
     <div
       className="max-w-[200px] md:max-w-full h-[400px] md:h-auto 
     rounded-xl overflow-hidden p-3 relative select-none md:hover:scale-110 transition-all cursor-pointer"
-      onClick={() => navigate(`/movies/${id}`)}
+      onClick={navigationIfType}
+
     >
       <div className="z-50 relative w-full h-full flex flex-col gap-y-2 overflow-hidden">
         <div className="max-w-full h-[300px] rounded-xl">
@@ -56,7 +64,9 @@ const MovieCard = ({ name, src, vote, release, id }) => {
           </div>
         </div>
         <ButtonWatch
-          onClick={() => navigate(`/movies/${id}`)}
+          onClick={
+            navigationIfType
+          }
           className="text-lg flex justify-center 
           items-center px-4 py-2 mt-auto relative bottom-0 rounded-xl"
           bgColor={"secondary"}

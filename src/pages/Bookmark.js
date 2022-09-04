@@ -5,6 +5,7 @@ import MovieCard from "../components/movieCard/MovieCard";
 import CheckBox from "../components/checkBox/CheckBox";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
+import PersonalMovieCard from "../components/movieCard/PersonalMovieCard";
 
 const Bookmark = () => {
   const { bookmarkId, moviesBookmarkData, currentId } = useSelector(
@@ -12,6 +13,9 @@ const Bookmark = () => {
   );
   const [edit, setEdit] = useState(false);
   const [selected, setSelected] = useState([]);
+  const result = bookmarkId.filter((item) => {
+    return !selected.includes(item);
+  });
   return (
     <div className="w-full mb-10 text-white">
       <h1 className="text-[40px] font-semibold block mb-5 w-full text-center items-center">
@@ -52,10 +56,10 @@ const Bookmark = () => {
               }`}
               disabled={!selected.length > 0}
               onClick={async () => {
+                if (!selected.length > 0) return
                 const result = bookmarkId.filter((item) => {
                   return !selected.includes(item);
                 });
-                console.log(result);
                 await updateDoc(doc(db, "users", currentId), {
                   bookmark: JSON.stringify([...result]),
                 });
@@ -131,16 +135,13 @@ const Bookmark = () => {
 
       {bookmarkId?.length > 0 ? (
         <div className="w-full flex flex-row flex-wrap gap-5 justify-center">
-          {moviesBookmarkData.length > 0 &&
-            moviesBookmarkData.map((item) => (
+          {bookmarkId.length > 0 &&
+            bookmarkId.map((item) => (
               <div className="md:w-[250px] w-[45%] flex-shrink-0" key={item.id}>
-                <MovieCard
-                  name={item.title || item.name}
-                  src={item.poster_path}
-                  vote={item.vote_average}
-                  release={item.release_date || item.first_air_date}
+              <PersonalMovieCard
                   id={item.id}
-                ></MovieCard>
+                  type={item.type}
+                ></PersonalMovieCard>
                 {edit && (
                   <CheckBox
                     id={item.id}

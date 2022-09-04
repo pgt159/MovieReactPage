@@ -1,16 +1,14 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LoadingSkeleton from "../../loading/LoadingSkeleton";
 
-const MovieListItem = ({ name, src, vote, release, id }) => {
+const PersonalListItem = ({ name, src, vote, release, id, type }) => {
   const navigate = useNavigate();
-  const {currentType} = useSelector((state) => state.type)
   return (
     <div
       className="cursor-pointer w-full h-[320px] 
       md:h-[400px] rounded-xl overflow-hidden p-3 relative select-none"
-      onClick={() => navigate(`${currentType === 'Movies' ? `/movies/${id}` : `/series/${id}`}`)}
+      onClick={() => navigate(`${type === undefined ? `/movies/${id}` : `/series/${id}`}`)}
     >
       <div className="z-50 relative w-full h-full flex flex-col gap-y-2 ">
         <div className="max-w-full h-[250px] md:h-[85%] rounded-xl">
@@ -66,7 +64,7 @@ const MovieListItem = ({ name, src, vote, release, id }) => {
   );
 };
 
-export default MovieListItem;
+export default PersonalListItem;
 
 export const MovieCardLoading = () => {
   return (
