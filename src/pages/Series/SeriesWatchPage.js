@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import MovieListItem from "../../components/movieCard/MovieListItem";
 import { tmdbSeries } from "../../config";
 import useGetMovies from "../../hooks/useGetMovies";
 import { setType } from "../../redux/TypeSlice/typeSlice";
@@ -12,15 +14,13 @@ const SeriesWatchPage = () => {
   const se = useGetMovies(
     `https://api.themoviedb.org/3/tv/${movieId}/season/${season}?api_key=68ff44b16c8cfc514f5219295b422d75&language=en-US`
   );
-  console.log(se)
-  console.log(se)
   const [similar, setSimilar] = useState();
   const similarResponse = useGetMovies(
     tmdbSeries.getSeriesDetails(movieId, "similar")
   );
+  
   useEffect(() => {
     setSimilar(similarResponse);
-    console.log(similarResponse)
     dispatch(setType('Series'))
   }, [similarResponse]);
   return (
@@ -94,8 +94,28 @@ const SeriesWatchPage = () => {
 
         <div className="vertical-scroll text-white w-full flex-shrink-0 rounded-lg md:flex-col ">
           <SEChosing seasonNumber={movies?.number_of_seasons} id={movieId} se={se} season={season} ep={ep}></SEChosing>
-              
         </div>
+        <div className="flex flex-col gap-y-5 text-white">
+        <span className="text-2xl font-semibold mx-auto">Similar Movies</span>
+        <div className="container movie-list ">
+          <Swiper grabCursor={"true"} spaceBetween={50} slidesPerView={'auto'}>
+            {similar &&
+              similar?.results?.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <MovieListItem
+                    name={item.title || item.name}
+                    src={item.poster_path}
+                    vote={item.vote_average}
+                    release={item.release_date || item.first_air_date}
+                    id={item.id}
+                    item={item}
+                    type={item.seasons}
+                  ></MovieListItem>
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        </div>
+      </div>
       </div>
     </>
   );

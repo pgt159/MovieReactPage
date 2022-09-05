@@ -18,7 +18,6 @@ const SeriesDetailPage = () => {
   const [video, setVideo] = useState();
   const [similar, setSimilar] = useState();
   const response = useGetMovies(tmdbSeries.getSeriesDetails(movieId, null));
-  console.log(response)
   const { history, currentId, bookmarkId, } =
     useSelector((state) => state.personal);
   const creditResponse = useGetMovies(tmdbSeries.getSeriesDetails(movieId, "credits"));

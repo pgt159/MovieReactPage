@@ -15,8 +15,8 @@ const EpisodeList = ({ chosenSeason, id }) => {
   }, [chosenSeason]);
   console.log(episodes);
   return (
-    <div className="w-full ep-list relative mb-10 flex-shrink-0">
-        <Swiper grabCursor={"false"} spaceBetween={10} slidesPerView={'auto'}>
+    <div className="w-full ep-list relative flex-shrink-0">
+        <Swiper grabCursor={"false"} spaceBetween={10} slidesPerView={`${window.innerWidth > 760 ? 5 : 4}`}>
 
         {episodes?.length > 0 &&
           episodes.map((item) => (
