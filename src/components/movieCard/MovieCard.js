@@ -14,7 +14,7 @@ const MovieCard = ({ name, src, vote, release, id}) => {
   }
   return (
     <div
-      className="max-w-[200px] md:max-w-full h-[400px] md:h-auto 
+      className="max-w-[200px] md:max-w-full h-auto
     rounded-xl overflow-hidden p-3 relative select-none md:hover:scale-110 transition-all cursor-pointer"
       onClick={navigationIfType}
 

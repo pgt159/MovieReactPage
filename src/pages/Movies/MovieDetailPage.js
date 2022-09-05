@@ -138,7 +138,7 @@ const MovieDetailPage = () => {
         </Link>
       </div>
 
-      <div className="flex flex-row justify-center flex-nowrap md:gap-x-10 gap-5">
+      <div className="flex flex-row justify-center flex-wrap md:gap-x-10 gap-5">
         {movie?.genres?.length > 0 &&
           movie?.genres?.map((item) => (
             <Link

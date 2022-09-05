@@ -40,7 +40,7 @@ const MoviesExplorePage = () => {
             {movies?.length > 0 &&
               movies.map((item) => (
                 <div
-                  className="md:w-[250px] w-[45%] flex-shrink-0"
+                  className="md:w-[250px] w-[48%] flex-shrink-0"
                   key={item.id}
                 >
                   <MovieCard
