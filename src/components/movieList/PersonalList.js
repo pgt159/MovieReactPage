@@ -10,7 +10,6 @@ const PersonalList = ({ type }) => {
   const { moviesHistory, moviesBookmarkData } = useSelector(
     (state) => state.personal
   );
-  console.log(moviesBookmarkData)
   const isLoading = !movies;
   useEffect(() => {
     if (type === "history") {
@@ -19,7 +18,6 @@ const PersonalList = ({ type }) => {
       setMovies(moviesBookmarkData);
     }
   }, [moviesHistory,moviesBookmarkData,type]);
-  console.log(moviesBookmarkData)
   return (
     <div className="w-full movie-list relative">
       {isLoading && (
